@@ -18,6 +18,11 @@ public class CreatePartSpecification {
     this.supplierRepository = supplierRepository;
   }
 
+  /**
+   * List all part specifications in my repository.
+   *
+   * @return all part specifications as model objects
+   */
   public List<PartSpecificationModel> getPartSpecifications() {
     List<PartSpecificationModel> result = new ArrayList<>();
     for (var ps : partSpecificationRepository.findAll()) {
@@ -31,13 +36,18 @@ public class CreatePartSpecification {
    * an id.
    *
    * @param partSpecificationModel the model for the part specification to be created
-   * @return
+   * @return the id of the created part specification
    */
   public Long createPartSpecification(PartSpecificationModel partSpecificationModel) {
     PartSpecification partSpecification = modelToPartSpecification(partSpecificationModel);
     return partSpecificationRepository.save(partSpecification);
   }
 
+  /**
+   * List all suppliers in my repository.
+   *
+   * @return all suppliers as model objects
+   */
   public List<SupplierModel> getSuppliers() {
     var result = new ArrayList<SupplierModel>();
     for (var supplier : supplierRepository.findAll()) {
@@ -93,6 +103,9 @@ public class CreatePartSpecification {
     supplierRepository.save(modelToSupplier(supplier));
   }
 
+  /**
+   * A "supplier model" can provide data about a supplier that is relevant to this use case.
+   */
   public static interface SupplierModel {
 
     Long getId();
@@ -100,6 +113,10 @@ public class CreatePartSpecification {
     void setId(Long id);
   }
 
+  /**
+   * A "part specification model" can provide data about a part specification that is relevant to
+   * this use case.
+   */
   public static interface PartSpecificationModel {
 
     String getName();
@@ -115,6 +132,9 @@ public class CreatePartSpecification {
     void setId(Long id);
   }
 
+  /**
+   * An implementation of SupplierModel that stores all properties in fields.
+   */
   public static class DefaultSupplierModel implements SupplierModel {
 
     private Long id;
@@ -130,6 +150,9 @@ public class CreatePartSpecification {
     }
   }
 
+  /**
+   * An implementation of PartSpecificationModel that stores all properties in fields.
+   */
   public static class DefaultPartSpecificationModel implements
       PartSpecificationModel {
 
