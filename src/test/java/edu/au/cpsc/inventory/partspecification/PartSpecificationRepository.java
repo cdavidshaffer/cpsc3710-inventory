@@ -33,10 +33,12 @@ public class PartSpecificationRepository {
    * an Id, one will be assigned.
    *
    * @param partSpecification the part specification to add
+   * @return
    */
-  public void save(PartSpecification partSpecification) {
+  public Long save(PartSpecification partSpecification) {
     ensureId(partSpecification);
     partSpecifications.add(partSpecification);
+    return partSpecification.getId();
   }
 
   /**
@@ -46,5 +48,14 @@ public class PartSpecificationRepository {
    */
   public List<PartSpecification> findAll() {
     return partSpecifications;
+  }
+
+  public PartSpecification findOne(Long id) {
+    for (var ps : partSpecifications) {
+      if (ps.getId().equals(id)) {
+        return ps;
+      }
+    }
+    return null;
   }
 }

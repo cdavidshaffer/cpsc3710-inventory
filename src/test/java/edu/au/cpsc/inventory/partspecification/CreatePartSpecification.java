@@ -1,5 +1,6 @@
 package edu.au.cpsc.inventory.partspecification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,40 +18,80 @@ public class CreatePartSpecification {
     this.supplierRepository = supplierRepository;
   }
 
-  public List<PartSpecification> getPartSpecifications() {
-    return partSpecificationRepository.findAll();
+  public List<PartSpecificationModel> getPartSpecifications() {
+    List<PartSpecificationModel> result = new ArrayList<>();
+    for (var ps : partSpecificationRepository.findAll()) {
+      result.add(PartSpecificationModel.from(ps));
+    }
+    return result;
   }
 
   /**
    * Create a part description by adding it to my part description repository thereby assigning it
    * an id.
    *
-   * @param partSpecification the part specification to be created
+   * @param partSpecificationModel the model for the part specification to be created
+   * @return
    */
-  public void createPartSpecification(PartSpecification partSpecification) {
-    partSpecificationRepository.save(partSpecification);
+  public Long createPartSpecification(PartSpecificationModel partSpecificationModel) {
+    PartSpecification partSpecification = partSpecificationModel.asPartSpecification();
+    return partSpecificationRepository.save(partSpecification);
+  }
+
+  public List<SupplierModel> getSuppliers() {
+    var result = new ArrayList<SupplierModel>();
+    for (var supplier : supplierRepository.findAll()) {
+      result.add(SupplierModel.from(supplier));
+    }
+    return result;
   }
 
   /**
    * Given a part specification, add a supplier to its list of suppliers.
    *
-   * @param ps       the part specification to be modified
-   * @param supplier the supplier to be added to the part specification
+   * @param partSpecificationId the id of the part specification to be modified
+   * @param supplierId          the id of the supplier to be added to the part specification
    */
-  public void addSupplierToPartSpecification(PartSpecification ps, Supplier supplier) {
-    ps.addSupplier(supplier);
+  public void addSupplierToPartSpecification(Long partSpecificationId, Long supplierId) {
+    var ps = partSpecificationRepository.findOne(partSpecificationId);
+    var s = supplierRepository.findOne(supplierId);
+    ps.addSupplier(s);
   }
 
-  public List<Supplier> getSuppliers() {
-    return supplierRepository.findAll();
-  }
 
   /**
    * Create a supplier by adding it to my supplier repository.
    *
    * @param supplier the supplier to be saved.
    */
-  public void createSupplier(Supplier supplier) {
-    supplierRepository.save(supplier);
+  public void createSupplier(SupplierModel supplier) {
+    supplierRepository.save(supplier.asSupplier());
+  }
+
+  public static class PartSpecificationModel {
+
+    public static PartSpecificationModel from(PartSpecification ps) {
+      return new PartSpecificationModel();
+    }
+
+    private String name;
+    private String description;
+
+    public PartSpecification asPartSpecification() {
+      return new PartSpecification();
+    }
+
+
+  }
+
+  public static class SupplierModel {
+
+    public static SupplierModel from(Supplier supplier) {
+      return new SupplierModel();
+    }
+
+    public Supplier asSupplier() {
+      return new Supplier();
+    }
   }
 }

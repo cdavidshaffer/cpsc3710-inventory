@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.List;
+import edu.au.cpsc.inventory.partspecification.CreatePartSpecification.PartSpecificationModel;
+import edu.au.cpsc.inventory.partspecification.CreatePartSpecification.SupplierModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class CreatePartSpecificationTest {
 
   @Test
   public void given_no_part_specifications_then_none_listed() {
-    List<PartSpecification> specs = useCase.getPartSpecifications();
+    var specs = useCase.getPartSpecifications();
     assertEquals(0, specs.size());
   }
 
@@ -32,7 +33,7 @@ public class CreatePartSpecificationTest {
   public void given_one_part_specification_then_one_listed() {
     partSpecificationRepository.save(new PartSpecification());
 
-    List<PartSpecification> specs = useCase.getPartSpecifications();
+    var specs = useCase.getPartSpecifications();
 
     assertEquals(1, specs.size());
   }
@@ -42,33 +43,45 @@ public class CreatePartSpecificationTest {
     partSpecificationRepository.save(new PartSpecification());
     partSpecificationRepository.save(new PartSpecification());
 
-    List<PartSpecification> specs = useCase.getPartSpecifications();
+    var specs = useCase.getPartSpecifications();
 
     assertEquals(2, specs.size());
   }
 
   @Test
   public void given_no_part_specifications_when_part_saved_then_one_part_present_in_repository() {
-    useCase.createPartSpecification(new PartSpecification());
+    useCase.createPartSpecification(new PartSpecificationModel());
 
-    List<PartSpecification> specs = partSpecificationRepository.findAll();
+    var specs = partSpecificationRepository.findAll();
 
     assertEquals(1, specs.size());
   }
 
   @Test
+  public void given_a_part_specification_then_specification_has_no_suppliers() {
+    PartSpecification partSpecification = new PartSpecification();
+    partSpecificationRepository.save(partSpecification);
+
+    assertEquals(0,
+        partSpecificationRepository.findOne(partSpecification.getId()).getSuppliers().size());
+  }
+
+  @Test
   public void given_a_part_specification_when_supplier_added_then_specification_has_supplier() {
-    PartSpecification ps = new PartSpecification();
-    useCase.createPartSpecification(ps);
+    PartSpecification partSpecification = new PartSpecification();
+    partSpecificationRepository.save(partSpecification);
+    Supplier supplier = new Supplier();
+    supplierRepository.save(supplier);
 
-    useCase.addSupplierToPartSpecification(ps, new Supplier());
+    useCase.addSupplierToPartSpecification(partSpecification.getId(), supplier.getId());
 
-    assertEquals(1, ps.getSuppliers().size());
+    assertEquals(1,
+        partSpecificationRepository.findOne(partSpecification.getId()).getSuppliers().size());
   }
 
   @Test
   public void given_no_suppliers_then_none_listed() {
-    List<Supplier> suppliers = useCase.getSuppliers();
+    var suppliers = useCase.getSuppliers();
 
     assertEquals(0, suppliers.size());
   }
@@ -77,14 +90,14 @@ public class CreatePartSpecificationTest {
   public void given_one_supplier_then_one_listed() {
     supplierRepository.save(new Supplier());
 
-    List<Supplier> suppliers = useCase.getSuppliers();
+    var suppliers = useCase.getSuppliers();
 
     assertEquals(1, suppliers.size());
   }
 
   @Test
   public void given_no_suppliers_when_one_created_then_one_in_repository() {
-    useCase.createSupplier(new Supplier());
+    useCase.createSupplier(new SupplierModel());
     assertEquals(1, supplierRepository.findAll().size());
   }
 
@@ -97,20 +110,20 @@ public class CreatePartSpecificationTest {
 
   @Test
   public void given_created_part_specification_the_id_not_null() {
-    PartSpecification ps = new PartSpecification();
-    useCase.createPartSpecification(ps);
+    PartSpecificationModel ps = new PartSpecificationModel();
+    Long id = useCase.createPartSpecification(ps);
 
-    assertNotNull(ps.getId());
+    assertNotNull(partSpecificationRepository.findOne(id));
   }
 
   @Test
   public void given_two_created_part_specifications_their_ids_will_be_different() {
-    PartSpecification ps1 = new PartSpecification();
-    PartSpecification ps2 = new PartSpecification();
-    useCase.createPartSpecification(ps1);
-    useCase.createPartSpecification(ps2);
+    var ps1 = new PartSpecificationModel();
+    var ps2 = new PartSpecificationModel();
+    Long id1 = useCase.createPartSpecification(ps1);
+    Long id2 = useCase.createPartSpecification(ps2);
 
-    assertFalse(ps1.getId().equals(ps2.getId()));
+    assertFalse(id1.equals(id2));
   }
 
 }
