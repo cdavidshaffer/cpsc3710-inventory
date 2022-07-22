@@ -54,7 +54,7 @@ public class CreatePartSpecificationTest {
 
   @Test
   public void given_no_part_specifications_when_part_saved_then_one_part_present_in_repository() {
-    PartSpecificationModel partSpecificationModel = new DefaultPartSpecificationModel();
+    CreatePartSpecification.PartSpecificationModel partSpecificationModel = new CreatePartSpecification.DefaultPartSpecificationModel();
     partSpecificationModel.setName("name");
     partSpecificationModel.setDescription("description");
     Long id = useCase.createPartSpecification(partSpecificationModel);
@@ -108,7 +108,7 @@ public class CreatePartSpecificationTest {
 
   @Test
   public void given_no_suppliers_when_one_created_then_one_in_repository() {
-    useCase.createSupplier(new DefaultSupplierModel());
+    useCase.createSupplier(new CreatePartSpecification.DefaultSupplierModel());
     assertEquals(1, supplierRepository.findAll().size());
   }
 
@@ -121,7 +121,7 @@ public class CreatePartSpecificationTest {
 
   @Test
   public void given_created_part_specification_the_id_not_null() {
-    PartSpecificationModel ps = new DefaultPartSpecificationModel();
+    CreatePartSpecification.PartSpecificationModel ps = new CreatePartSpecification.DefaultPartSpecificationModel();
     Long id = useCase.createPartSpecification(ps);
 
     assertNotNull(partSpecificationRepository.findOne(id));
@@ -129,8 +129,8 @@ public class CreatePartSpecificationTest {
 
   @Test
   public void given_two_created_part_specifications_their_ids_will_be_different() {
-    var ps1 = new DefaultPartSpecificationModel();
-    var ps2 = new DefaultPartSpecificationModel();
+    var ps1 = new CreatePartSpecification.DefaultPartSpecificationModel();
+    var ps2 = new CreatePartSpecification.DefaultPartSpecificationModel();
     Long id1 = useCase.createPartSpecification(ps1);
     Long id2 = useCase.createPartSpecification(ps2);
 

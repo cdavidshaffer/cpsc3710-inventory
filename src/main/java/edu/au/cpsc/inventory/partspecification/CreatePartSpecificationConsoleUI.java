@@ -41,7 +41,7 @@ public class CreatePartSpecificationConsoleUI {
   }
 
   private void createSupplier() {
-    createPartSpecification.createSupplier(new DefaultSupplierModel());
+    createPartSpecification.createSupplier(new CreatePartSpecification.DefaultSupplierModel());
     System.out.println("Created!");
   }
 
@@ -56,7 +56,7 @@ public class CreatePartSpecificationConsoleUI {
     }
     System.out.println("Create part\n");
     System.out.println("Existing part specifications: ");
-    for (PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
+    for (CreatePartSpecification.PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
       System.out.printf("%d) %s: %s\n", m.getId(), m.getName(), m.getDescription());
     }
 
@@ -65,7 +65,7 @@ public class CreatePartSpecificationConsoleUI {
     scanner.nextLine();
 
     System.out.println("Suppliers: ");
-    for (SupplierModel m : createPartSpecification.getSuppliers()) {
+    for (CreatePartSpecification.SupplierModel m : createPartSpecification.getSuppliers()) {
       System.out.printf("%d\n", m.getId());
     }
 
@@ -79,7 +79,7 @@ public class CreatePartSpecificationConsoleUI {
   private void createPartSpecification() {
     System.out.println("Create part\n");
     System.out.println("Existing part specifications: ");
-    for (PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
+    for (CreatePartSpecification.PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
       System.out.printf("%s: %s\n", m.getName(), m.getDescription());
     }
     System.out.println("Are you sure you want to create a new one?");
@@ -91,7 +91,7 @@ public class CreatePartSpecificationConsoleUI {
     String name = scanner.nextLine();
     System.out.print("Enter part specification description: ");
     String description = scanner.nextLine();
-    var model = new DefaultPartSpecificationModel();
+    var model = new CreatePartSpecification.DefaultPartSpecificationModel();
     model.setName(name);
     model.setDescription(description);
     createPartSpecification.createPartSpecification(model);

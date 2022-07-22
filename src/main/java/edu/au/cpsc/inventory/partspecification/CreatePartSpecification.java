@@ -93,4 +93,78 @@ public class CreatePartSpecification {
     supplierRepository.save(modelToSupplier(supplier));
   }
 
+  public static interface SupplierModel {
+
+    Long getId();
+
+    void setId(Long id);
+  }
+
+  public static interface PartSpecificationModel {
+
+    String getName();
+
+    void setName(String name);
+
+    String getDescription();
+
+    void setDescription(String description);
+
+    Long getId();
+
+    void setId(Long id);
+  }
+
+  public static class DefaultSupplierModel implements SupplierModel {
+
+    private Long id;
+
+    @Override
+    public Long getId() {
+      return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+      this.id = id;
+    }
+  }
+
+  public static class DefaultPartSpecificationModel implements
+      PartSpecificationModel {
+
+    private String name;
+    private String description;
+    private Long id;
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String getDescription() {
+      return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+      this.description = description;
+    }
+
+    @Override
+    public Long getId() {
+      return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+      this.id = id;
+    }
+  }
 }
