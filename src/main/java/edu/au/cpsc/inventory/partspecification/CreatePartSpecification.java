@@ -21,7 +21,7 @@ public class CreatePartSpecification {
   public List<PartSpecificationModel> getPartSpecifications() {
     List<PartSpecificationModel> result = new ArrayList<>();
     for (var ps : partSpecificationRepository.findAll()) {
-      result.add(PartSpecificationModel.from(ps));
+      result.add(partSpecificationToModel(ps));
     }
     return result;
   }
@@ -34,14 +34,14 @@ public class CreatePartSpecification {
    * @return
    */
   public Long createPartSpecification(PartSpecificationModel partSpecificationModel) {
-    PartSpecification partSpecification = partSpecificationModel.asPartSpecification();
+    PartSpecification partSpecification = modelToPartSpecification(partSpecificationModel);
     return partSpecificationRepository.save(partSpecification);
   }
 
   public List<SupplierModel> getSuppliers() {
     var result = new ArrayList<SupplierModel>();
     for (var supplier : supplierRepository.findAll()) {
-      result.add(SupplierModel.from(supplier));
+      result.add(supplierToModel(supplier));
     }
     return result;
   }
@@ -58,6 +58,31 @@ public class CreatePartSpecification {
     ps.addSupplier(s);
   }
 
+  private PartSpecificationModel partSpecificationToModel(PartSpecification ps) {
+    PartSpecificationModel partSpecificationModel = new DefaultPartSpecificationModel();
+    partSpecificationModel.setName(ps.getName());
+    partSpecificationModel.setDescription(ps.getDescription());
+    partSpecificationModel.setId(ps.getId());
+    return partSpecificationModel;
+  }
+
+  private PartSpecification modelToPartSpecification(PartSpecificationModel psm) {
+    PartSpecification partSpecification = new PartSpecification();
+    partSpecification.setName(psm.getName());
+    partSpecification.setDescription(psm.getDescription());
+    return partSpecification;
+  }
+
+  private SupplierModel supplierToModel(Supplier s) {
+    SupplierModel supplierModel = new DefaultSupplierModel();
+    supplierModel.setId(s.getId());
+    return supplierModel;
+  }
+
+  private Supplier modelToSupplier(SupplierModel sm) {
+    return new Supplier();
+  }
+
 
   /**
    * Create a supplier by adding it to my supplier repository.
@@ -65,33 +90,7 @@ public class CreatePartSpecification {
    * @param supplier the supplier to be saved.
    */
   public void createSupplier(SupplierModel supplier) {
-    supplierRepository.save(supplier.asSupplier());
+    supplierRepository.save(modelToSupplier(supplier));
   }
 
-  public static class PartSpecificationModel {
-
-    public static PartSpecificationModel from(PartSpecification ps) {
-      return new PartSpecificationModel();
-    }
-
-    private String name;
-    private String description;
-
-    public PartSpecification asPartSpecification() {
-      return new PartSpecification();
-    }
-
-
-  }
-
-  public static class SupplierModel {
-
-    public static SupplierModel from(Supplier supplier) {
-      return new SupplierModel();
-    }
-
-    public Supplier asSupplier() {
-      return new Supplier();
-    }
-  }
 }

@@ -1,0 +1,136 @@
+package edu.au.cpsc.inventory.partspecification;
+
+import java.util.Scanner;
+
+public class CreatePartSpecificationConsoleUI {
+
+  private final Scanner scanner;
+  private CreatePartSpecification createPartSpecification;
+
+  public CreatePartSpecificationConsoleUI(CreatePartSpecification createPartSpecification) {
+    this.createPartSpecification = createPartSpecification;
+    scanner = new Scanner(System.in);
+  }
+
+  public void run() {
+    displayMainMenu();
+    MenuResponse selection = getMenuResponse();
+    while (selection != MenuResponse.QUIT) {
+      handleMenuSelection(selection);
+      displayMainMenu();
+      selection = getMenuResponse();
+    }
+  }
+
+  private void handleMenuSelection(MenuResponse selection) {
+    switch (selection) {
+      case QUIT:
+        break;
+      case CREATE_PART_SPECIFICATION:
+        createPartSpecification();
+        break;
+      case ASSIGN_SUPPLIER:
+        assignSupplier();
+        break;
+      case CREATE_SUPPLIER:
+        createSupplier();
+        break;
+      case INVALID:
+        System.out.println("Invalid menu selection");
+    }
+  }
+
+  private void createSupplier() {
+    createPartSpecification.createSupplier(new DefaultSupplierModel());
+    System.out.println("Created!");
+  }
+
+  private void assignSupplier() {
+    if (createPartSpecification.getSuppliers().isEmpty()) {
+      System.out.println("No suppliers, create one first");
+      return;
+    }
+    if (createPartSpecification.getPartSpecifications().isEmpty()) {
+      System.out.println("No part specifications, create one first");
+      return;
+    }
+    System.out.println("Create part\n");
+    System.out.println("Existing part specifications: ");
+    for (PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
+      System.out.printf("%d) %s: %s\n", m.getId(), m.getName(), m.getDescription());
+    }
+
+    System.out.print("Enter id of the part specification to modify: ");
+    Long partSpecificationId = scanner.nextLong();
+    scanner.nextLine();
+
+    System.out.println("Suppliers: ");
+    for (SupplierModel m : createPartSpecification.getSuppliers()) {
+      System.out.printf("%d\n", m.getId());
+    }
+
+    System.out.print("Enter id of the supplier to add: ");
+    Long supplierId = scanner.nextLong();
+    scanner.nextLine();
+
+    createPartSpecification.addSupplierToPartSpecification(partSpecificationId, supplierId);
+  }
+
+  private void createPartSpecification() {
+    System.out.println("Create part\n");
+    System.out.println("Existing part specifications: ");
+    for (PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
+      System.out.printf("%s: %s\n", m.getName(), m.getDescription());
+    }
+    System.out.println("Are you sure you want to create a new one?");
+    String response = scanner.nextLine();
+    if (response.toLowerCase().equals("n")) {
+      return;
+    }
+    System.out.print("Enter part specification name: ");
+    String name = scanner.nextLine();
+    System.out.print("Enter part specification description: ");
+    String description = scanner.nextLine();
+    var model = new DefaultPartSpecificationModel();
+    model.setName(name);
+    model.setDescription(description);
+    createPartSpecification.createPartSpecification(model);
+  }
+
+  private MenuResponse getMenuResponse() {
+    System.out.print("Enter selection> ");
+    String line = scanner.nextLine();
+    for (MenuResponse candidate : MenuResponse.values()) {
+      if (candidate.getInputCharacter() == line.charAt(0)) {
+        return candidate;
+      }
+    }
+    return MenuResponse.INVALID;
+  }
+
+  private void displayMainMenu() {
+    System.out.println("\n\nMain menu");
+    System.out.println("c) Create part specification");
+    System.out.println("a) Assign supplier to part specification");
+    System.out.println("s) create supplier");
+    System.out.println("q) Quit");
+  }
+
+  private enum MenuResponse {
+    QUIT('q'),
+    CREATE_PART_SPECIFICATION('c'),
+    ASSIGN_SUPPLIER('a'),
+    INVALID('?'),
+    CREATE_SUPPLIER('s');
+
+    private char inputCharacter;
+
+    MenuResponse(char inputCharacter) {
+      this.inputCharacter = inputCharacter;
+    }
+
+    public char getInputCharacter() {
+      return inputCharacter;
+    }
+  }
+}

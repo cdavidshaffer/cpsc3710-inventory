@@ -24,9 +24,10 @@ public class SupplierRepository {
     supplier.setId(nextId());
   }
 
-  public void save(Supplier supplier) {
+  public Long save(Supplier supplier) {
     ensureId(supplier);
     suppliers.add(supplier);
+    return supplier.getId();
   }
 
   public List<Supplier> findAll() {
