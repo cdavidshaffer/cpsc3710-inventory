@@ -21,7 +21,7 @@ public class CreatePartSpecification {
   /**
    * List all part specifications in my repository.
    *
-   * @return all part specifications as model objects
+   * @return list of part specifications as model objects
    */
   public List<PartSpecificationModel> getPartSpecifications() {
     List<PartSpecificationModel> result = new ArrayList<>();
@@ -46,7 +46,7 @@ public class CreatePartSpecification {
   /**
    * List all suppliers in my repository.
    *
-   * @return all suppliers as model objects
+   * @return list of suppliers as model objects
    */
   public List<SupplierModel> getSuppliers() {
     var result = new ArrayList<SupplierModel>();
@@ -106,7 +106,7 @@ public class CreatePartSpecification {
   /**
    * A "supplier model" can provide data about a supplier that is relevant to this use case.
    */
-  public static interface SupplierModel {
+  public interface SupplierModel {
 
     Long getId();
 
@@ -117,7 +117,7 @@ public class CreatePartSpecification {
    * A "part specification model" can provide data about a part specification that is relevant to
    * this use case.
    */
-  public static interface PartSpecificationModel {
+  public interface PartSpecificationModel {
 
     String getName();
 

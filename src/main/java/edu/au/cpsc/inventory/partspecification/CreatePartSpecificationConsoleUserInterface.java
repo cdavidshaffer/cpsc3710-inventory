@@ -2,16 +2,23 @@ package edu.au.cpsc.inventory.partspecification;
 
 import java.util.Scanner;
 
-public class CreatePartSpecificationConsoleUI {
+/**
+ * Console user interface for the part specification creation use case.
+ */
+public class CreatePartSpecificationConsoleUserInterface {
 
   private final Scanner scanner;
   private CreatePartSpecification createPartSpecification;
 
-  public CreatePartSpecificationConsoleUI(CreatePartSpecification createPartSpecification) {
+  public CreatePartSpecificationConsoleUserInterface(
+      CreatePartSpecification createPartSpecification) {
     this.createPartSpecification = createPartSpecification;
     scanner = new Scanner(System.in);
   }
 
+  /**
+   * Execute this user interface's main loop.
+   */
   public void run() {
     displayMainMenu();
     MenuResponse selection = getMenuResponse();
@@ -36,6 +43,7 @@ public class CreatePartSpecificationConsoleUI {
         createSupplier();
         break;
       case INVALID:
+      default:
         System.out.println("Invalid menu selection");
     }
   }
@@ -56,21 +64,21 @@ public class CreatePartSpecificationConsoleUI {
     }
     System.out.println("Create part\n");
     System.out.println("Existing part specifications: ");
-    for (CreatePartSpecification.PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
+    for (var m : createPartSpecification.getPartSpecifications()) {
       System.out.printf("%d) %s: %s\n", m.getId(), m.getName(), m.getDescription());
     }
 
     System.out.print("Enter id of the part specification to modify: ");
-    Long partSpecificationId = scanner.nextLong();
+    final Long partSpecificationId = scanner.nextLong();
     scanner.nextLine();
 
     System.out.println("Suppliers: ");
-    for (CreatePartSpecification.SupplierModel m : createPartSpecification.getSuppliers()) {
+    for (var m : createPartSpecification.getSuppliers()) {
       System.out.printf("%d\n", m.getId());
     }
 
     System.out.print("Enter id of the supplier to add: ");
-    Long supplierId = scanner.nextLong();
+    final Long supplierId = scanner.nextLong();
     scanner.nextLine();
 
     createPartSpecification.addSupplierToPartSpecification(partSpecificationId, supplierId);
@@ -79,7 +87,7 @@ public class CreatePartSpecificationConsoleUI {
   private void createPartSpecification() {
     System.out.println("Create part\n");
     System.out.println("Existing part specifications: ");
-    for (CreatePartSpecification.PartSpecificationModel m : createPartSpecification.getPartSpecifications()) {
+    for (var m : createPartSpecification.getPartSpecifications()) {
       System.out.printf("%s: %s\n", m.getName(), m.getDescription());
     }
     System.out.println("Are you sure you want to create a new one?");
@@ -112,7 +120,7 @@ public class CreatePartSpecificationConsoleUI {
     System.out.println("\n\nMain menu");
     System.out.println("c) Create part specification");
     System.out.println("a) Assign supplier to part specification");
-    System.out.println("s) create supplier");
+    System.out.println("s) Create supplier");
     System.out.println("q) Quit");
   }
 
@@ -123,7 +131,7 @@ public class CreatePartSpecificationConsoleUI {
     INVALID('?'),
     CREATE_SUPPLIER('s');
 
-    private char inputCharacter;
+    private final char inputCharacter;
 
     MenuResponse(char inputCharacter) {
       this.inputCharacter = inputCharacter;
