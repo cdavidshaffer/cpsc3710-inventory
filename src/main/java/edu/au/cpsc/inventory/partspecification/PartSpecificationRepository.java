@@ -30,10 +30,10 @@ public class PartSpecificationRepository {
 
   /**
    * Store the specified part specification to this repository.  If the specification does not have
-   * an Id, one will be assigned.
+   * an id, one will be assigned.
    *
    * @param partSpecification the part specification to add
-   * @return
+   * @return the id of the object to save
    */
   public Long save(PartSpecification partSpecification) {
     ensureId(partSpecification);
@@ -50,6 +50,13 @@ public class PartSpecificationRepository {
     return partSpecifications;
   }
 
+  /**
+   * Given an id, return the part specification with that id or null if that part specification does
+   * not exist.
+   *
+   * @param id the id of the part specification to find
+   * @return the part specification with that id or null if there is none
+   */
   public PartSpecification findOne(Long id) {
     for (var ps : partSpecifications) {
       if (ps.getId().equals(id)) {

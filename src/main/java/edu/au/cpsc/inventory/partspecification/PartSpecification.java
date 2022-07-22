@@ -8,7 +8,7 @@ import java.util.List;
  * manufactured.  Part specifications include information about what suppliers are known to be able
  * to supply them.
  *
- * <p>Part specifications that have been persisted are assigned an Id.
+ * <p>Part specifications that have been persisted are assigned an id.
  */
 public class PartSpecification {
 
