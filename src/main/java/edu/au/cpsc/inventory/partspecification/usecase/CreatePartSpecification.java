@@ -2,8 +2,8 @@ package edu.au.cpsc.inventory.partspecification.usecase;
 
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
-import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemoryPartSpecificationRepository;
-import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +13,11 @@ import java.util.List;
  */
 public class CreatePartSpecification {
 
-  private InMemoryPartSpecificationRepository partSpecificationRepository;
-  private InMemorySupplierRepository supplierRepository;
+  private PartSpecificationRepository partSpecificationRepository;
+  private SupplierRepository supplierRepository;
 
-  public CreatePartSpecification(InMemoryPartSpecificationRepository partSpecificationRepository,
-      InMemorySupplierRepository supplierRepository) {
+  public CreatePartSpecification(PartSpecificationRepository partSpecificationRepository,
+      SupplierRepository supplierRepository) {
     this.partSpecificationRepository = partSpecificationRepository;
     this.supplierRepository = supplierRepository;
   }

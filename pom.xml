@@ -50,12 +50,18 @@
       </plugins>
     </pluginManagement>
   </build>
-  
+
   <dependencies>
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>derbyclient</artifactId>
+      <groupId>org.apache.derby</groupId>
+      <scope>compile</scope>
+      <version>10.15.2.0</version>
     </dependency>
   </dependencies>
 

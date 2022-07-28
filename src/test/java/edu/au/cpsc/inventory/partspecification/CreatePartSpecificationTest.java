@@ -7,25 +7,27 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
-import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemoryPartSpecificationRepository;
-import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
+import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CreatePartSpecificationTest {
+public abstract class CreatePartSpecificationTest {
 
-  private InMemoryPartSpecificationRepository partSpecificationRepository;
+  protected PartSpecificationRepository partSpecificationRepository;
+  protected SupplierRepository supplierRepository;
   private CreatePartSpecification useCase;
-  private InMemorySupplierRepository supplierRepository;
 
   @BeforeEach
-  public void setUp() {
-    partSpecificationRepository = new InMemoryPartSpecificationRepository();
-    supplierRepository = new InMemorySupplierRepository();
+  public void setUp() throws SQLException {
+    createRepositories();
     useCase = new CreatePartSpecification(partSpecificationRepository, supplierRepository);
   }
+
+  protected abstract void createRepositories() throws SQLException;
 
   @Test
   public void given_no_part_specifications_then_none_listed() {
