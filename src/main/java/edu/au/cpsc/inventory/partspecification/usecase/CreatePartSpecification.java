@@ -1,5 +1,9 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.usecase;
 
+import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
+import edu.au.cpsc.inventory.partspecification.entity.Supplier;
+import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemoryPartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +13,11 @@ import java.util.List;
  */
 public class CreatePartSpecification {
 
-  private PartSpecificationRepository partSpecificationRepository;
-  private SupplierRepository supplierRepository;
+  private InMemoryPartSpecificationRepository partSpecificationRepository;
+  private InMemorySupplierRepository supplierRepository;
 
-  public CreatePartSpecification(PartSpecificationRepository partSpecificationRepository,
-      SupplierRepository supplierRepository) {
+  public CreatePartSpecification(InMemoryPartSpecificationRepository partSpecificationRepository,
+      InMemorySupplierRepository supplierRepository) {
     this.partSpecificationRepository = partSpecificationRepository;
     this.supplierRepository = supplierRepository;
   }
@@ -25,7 +29,7 @@ public class CreatePartSpecification {
    */
   public List<PartSpecificationModel> getPartSpecifications() {
     List<PartSpecificationModel> result = new ArrayList<>();
-    for (var ps : partSpecificationRepository.findAll()) {
+    for (PartSpecification ps : partSpecificationRepository.findAll()) {
       result.add(partSpecificationToModel(ps));
     }
     return result;
@@ -63,7 +67,7 @@ public class CreatePartSpecification {
    * @param supplierId          the id of the supplier to be added to the part specification
    */
   public void addSupplierToPartSpecification(Long partSpecificationId, Long supplierId) {
-    var ps = partSpecificationRepository.findOne(partSpecificationId);
+    PartSpecification ps = partSpecificationRepository.findOne(partSpecificationId);
     var s = supplierRepository.findOne(supplierId);
     ps.addSupplier(s);
   }

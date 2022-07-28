@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,11 @@ import java.util.List;
  *
  * <p>Part specifications that have been persisted are assigned an id.
  */
-public class PartSpecification {
+public class PartSpecification extends Entity {
 
-  private List<Supplier> suppliers;
-  private Long id;
   private String name;
   private String description;
+  private List<Supplier> suppliers;
 
   public PartSpecification() {
     suppliers = new ArrayList<>();
@@ -48,14 +47,6 @@ public class PartSpecification {
 
   public List<Supplier> getSuppliers() {
     return suppliers;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
 

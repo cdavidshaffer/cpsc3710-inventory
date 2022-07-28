@@ -1,5 +1,6 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.consoleui;
 
+import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
 import java.util.Scanner;
 
 /**

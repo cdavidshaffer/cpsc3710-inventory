@@ -5,19 +5,25 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
+import edu.au.cpsc.inventory.partspecification.entity.Supplier;
+import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemoryPartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
+import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CreatePartSpecificationTest {
 
-  private PartSpecificationRepository partSpecificationRepository;
+  private InMemoryPartSpecificationRepository partSpecificationRepository;
   private CreatePartSpecification useCase;
-  private SupplierRepository supplierRepository;
+  private InMemorySupplierRepository supplierRepository;
 
   @BeforeEach
   public void setUp() {
-    partSpecificationRepository = new PartSpecificationRepository();
-    supplierRepository = new SupplierRepository();
+    partSpecificationRepository = new InMemoryPartSpecificationRepository();
+    supplierRepository = new InMemorySupplierRepository();
     useCase = new CreatePartSpecification(partSpecificationRepository, supplierRepository);
   }
 
@@ -59,7 +65,7 @@ public class CreatePartSpecificationTest {
     partSpecificationModel.setDescription("description");
     Long id = useCase.createPartSpecification(partSpecificationModel);
 
-    var specs = partSpecificationRepository.findAll();
+    List<PartSpecification> specs = partSpecificationRepository.findAll();
 
     assertEquals(1, specs.size());
     assertEquals(id, specs.get(0).getId());
