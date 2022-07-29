@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.tests.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

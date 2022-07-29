@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.tests.usecase;
 
 import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemoryPartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;

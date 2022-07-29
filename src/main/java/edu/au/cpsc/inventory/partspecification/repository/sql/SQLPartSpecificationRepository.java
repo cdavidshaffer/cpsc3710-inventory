@@ -1,5 +1,8 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.repository.sql;
 
+import edu.au.cpsc.inventory.partspecification.dataaccess.PartSpecificationDao;
+import edu.au.cpsc.inventory.partspecification.dataaccess.PartSpecificationDto;
+import edu.au.cpsc.inventory.partspecification.dataaccess.Session;
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ public class SQLPartSpecificationRepository implements PartSpecificationReposito
     PartSpecificationDao dao = new PartSpecificationDao();
     Long id = dao.insertOrUpdate(dto, session);
     partSpecification.setId(id);
+    session.commit();
     return id;
   }
 

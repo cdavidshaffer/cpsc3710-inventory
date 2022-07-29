@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.dataaccess;
 
 public class PartSpecificationDto {
 
