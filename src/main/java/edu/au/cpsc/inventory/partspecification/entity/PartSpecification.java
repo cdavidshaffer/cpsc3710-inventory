@@ -16,6 +16,13 @@ public class PartSpecification extends Entity {
   private String description;
   private List<Supplier> suppliers;
 
+  public PartSpecification(Long id, String name, String description) {
+    this();
+    setId(id);
+    setName(name);
+    setDescription(description);
+  }
+
   public PartSpecification() {
     suppliers = new ArrayList<>();
   }

@@ -14,11 +14,12 @@ public class SQLPartSpecificationRepository implements PartSpecificationReposito
   }
 
   @Override
-  public Long save(PartSpecification entity) {
-    PartSpecificationDto dto = new PartSpecificationDto(entity.getId(), entity.getName(),
-        entity.getDescription());
+  public Long save(PartSpecification partSpecification) {
+    PartSpecificationDto dto = partSpecificationToDto(partSpecification);
     PartSpecificationDao dao = new PartSpecificationDao();
-    return dao.insertOrUpdate(dto, session);
+    Long id = dao.insertOrUpdate(dto, session);
+    partSpecification.setId(id);
+    return id;
   }
 
   @Override
@@ -27,7 +28,8 @@ public class SQLPartSpecificationRepository implements PartSpecificationReposito
     List<PartSpecificationDto> dtos = dao.selectAll(session);
     List<PartSpecification> specs = new ArrayList<>();
     for (PartSpecificationDto dto : dtos) {
-      specs.add(new PartSpecification());
+      PartSpecification ps = dtoToPartSpecification(dto);
+      specs.add(ps);
     }
     return specs;
   }
@@ -39,6 +41,18 @@ public class SQLPartSpecificationRepository implements PartSpecificationReposito
     if (dto == null) {
       return null;
     }
-    return new PartSpecification();
+    PartSpecification partSpecification = dtoToPartSpecification(dto);
+    return partSpecification;
+  }
+
+  private PartSpecification dtoToPartSpecification(PartSpecificationDto dto) {
+    return new PartSpecification(dto.getId(), dto.getName(),
+        dto.getDescription());
+  }
+
+  private PartSpecificationDto partSpecificationToDto(PartSpecification partSpecification) {
+    return new PartSpecificationDto(partSpecification.getId(),
+        partSpecification.getName(),
+        partSpecification.getDescription());
   }
 }
