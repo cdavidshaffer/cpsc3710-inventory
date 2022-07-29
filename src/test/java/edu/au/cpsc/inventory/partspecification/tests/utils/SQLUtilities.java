@@ -19,7 +19,6 @@ public class SQLUtilities {
       for (var statementString : fileContents.split(";")) {
         if (!statementString.isBlank()) {
           try (Statement statement = c.createStatement()) {
-            System.out.println("Executing: <" + statementString + ">");
             statement.execute(statementString);
           }
         }
