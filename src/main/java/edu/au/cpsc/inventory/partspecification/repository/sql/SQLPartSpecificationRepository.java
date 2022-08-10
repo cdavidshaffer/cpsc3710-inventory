@@ -8,6 +8,10 @@ import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepos
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of PartSpecificationRepository that uses SQL-based Database Access Objects to
+ * fetch and store part specifications in a database.
+ */
 public class SQLPartSpecificationRepository implements PartSpecificationRepository {
 
   private Session session;

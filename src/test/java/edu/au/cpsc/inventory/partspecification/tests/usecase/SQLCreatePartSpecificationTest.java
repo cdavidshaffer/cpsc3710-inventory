@@ -16,7 +16,7 @@ public class SQLCreatePartSpecificationTest extends CreatePartSpecificationTest 
   @BeforeEach
   public void createTestDatabaseTables() throws SQLException, IOException {
     try (Connection c = DriverManager.getConnection("jdbc:derby://localhost:1528/inventory")) {
-      SQLUtilities.executeSqlFile("/sql/01_create_part_specifications.sql", c);
+      SQLUtilities.executeSqlFile("/sql/create_part_specifications.sql", c);
       c.commit();
     }
   }
