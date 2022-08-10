@@ -1,8 +1,8 @@
 package edu.au.cpsc.inventory.partspecification.tests.repository;
 
 import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
-import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
-import edu.au.cpsc.inventory.partspecification.repository.sql.DatabasePartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.sql.DatabaseSupplierRepository;
 import edu.au.cpsc.inventory.partspecification.tests.utils.SQLUtilities;
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,20 +10,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;
 
-public class DatabasePartSpecificationRepositoryTest extends PartSpecificationRepositoryTest {
-
+public class DatabaseSupplierRepositoryTest extends SupplierRepositoryTest {
 
   @BeforeEach
   public void createTestDatabaseTables() throws SQLException, IOException {
     try (Connection c = DriverManager.getConnection("jdbc:derby://localhost:1528/inventory")) {
-      SQLUtilities.executeSqlFile("/sql/create_part_specifications.sql", c);
+      SQLUtilities.executeSqlFile("/sql/create_suppliers.sql", c);
       c.commit();
     }
   }
 
-  protected PartSpecificationRepository createRepository() throws SQLException {
+  @Override
+  protected SupplierRepository createRepository() throws SQLException {
     Session session = new Session(
         DriverManager.getConnection("jdbc:derby://localhost:1528/inventory"));
-    return new DatabasePartSpecificationRepository(session);
+    return new DatabaseSupplierRepository(session);
   }
 }

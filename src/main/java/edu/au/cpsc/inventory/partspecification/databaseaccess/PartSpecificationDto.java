@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification.dataaccess;
+package edu.au.cpsc.inventory.partspecification.databaseaccess;
 
 /**
  * Data Transfer Object for the PartSpecifications table.  My instance variables reflect columns in

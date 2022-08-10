@@ -1,6 +1,6 @@
 package edu.au.cpsc.inventory.partspecification.tests.usecase;
 
-import edu.au.cpsc.inventory.partspecification.dataaccess.Session;
+import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
 import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
 import edu.au.cpsc.inventory.partspecification.repository.sql.DatabasePartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.tests.utils.SQLUtilities;

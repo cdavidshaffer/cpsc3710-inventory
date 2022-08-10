@@ -1,8 +1,8 @@
 package edu.au.cpsc.inventory.partspecification.repository.sql;
 
-import edu.au.cpsc.inventory.partspecification.dataaccess.PartSpecificationDao;
-import edu.au.cpsc.inventory.partspecification.dataaccess.PartSpecificationDto;
-import edu.au.cpsc.inventory.partspecification.dataaccess.Session;
+import edu.au.cpsc.inventory.partspecification.databaseaccess.PartSpecificationDao;
+import edu.au.cpsc.inventory.partspecification.databaseaccess.PartSpecificationDto;
+import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
 import java.util.ArrayList;

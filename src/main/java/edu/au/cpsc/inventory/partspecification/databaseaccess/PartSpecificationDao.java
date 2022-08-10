@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification.dataaccess;
+package edu.au.cpsc.inventory.partspecification.databaseaccess;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
