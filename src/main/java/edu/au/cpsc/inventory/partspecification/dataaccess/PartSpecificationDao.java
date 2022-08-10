@@ -7,8 +7,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Database Access Object for the Part Specifications table.  I implement database operations using
+ * JDBC calls.  My operations use a Session to interact with the database but they <b>do not</b>
+ * engage in transaction management.  It is my client's responsibility to manage transactions.
+ */
 public class PartSpecificationDao {
 
+  /**
+   * Insert (if dto.getId() is null) or update (otherwise) into the PartSpecifications table
+   *
+   * @param dto     data transfer object
+   * @param session database session
+   * @return the id of the inserted or updated object.  If an insert was performed, this id will be
+   *     the auto-generated id of the inserted row, otherwise it will be dto.getId().
+   */
   public Long insertOrUpdate(PartSpecificationDto dto, Session session) {
     try {
       if (dto.getId() == null) {
@@ -49,6 +62,12 @@ public class PartSpecificationDao {
     }
   }
 
+  /**
+   * Fetch all rows from the table.
+   *
+   * @param session the database session
+   * @return a list of all of the rows.
+   */
   public List<PartSpecificationDto> selectAll(Session session) {
     try (PreparedStatement statement = session.prepareStatement(
         "SELECT id, name, description FROM PartSpecifications",
@@ -66,6 +85,13 @@ public class PartSpecificationDao {
     }
   }
 
+  /**
+   * Fetch a single row from the table.
+   *
+   * @param id      id of the row to fetch
+   * @param session database session
+   * @return the row or null if there is no row with the specified id
+   */
   public PartSpecificationDto selectOne(Long id, Session session) {
     try (
         PreparedStatement statement = session.prepareStatement(

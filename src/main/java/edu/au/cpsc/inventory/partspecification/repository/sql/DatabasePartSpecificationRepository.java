@@ -12,11 +12,11 @@ import java.util.List;
  * Implementation of PartSpecificationRepository that uses SQL-based Database Access Objects to
  * fetch and store part specifications in a database.
  */
-public class SQLPartSpecificationRepository implements PartSpecificationRepository {
+public class DatabasePartSpecificationRepository implements PartSpecificationRepository {
 
   private Session session;
 
-  public SQLPartSpecificationRepository(Session session) {
+  public DatabasePartSpecificationRepository(Session session) {
     this.session = session;
   }
 

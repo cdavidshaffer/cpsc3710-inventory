@@ -2,7 +2,7 @@ package edu.au.cpsc.inventory.partspecification.tests.usecase;
 
 import edu.au.cpsc.inventory.partspecification.dataaccess.Session;
 import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
-import edu.au.cpsc.inventory.partspecification.repository.sql.SQLPartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.sql.DatabasePartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.tests.utils.SQLUtilities;
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,7 +22,7 @@ public class SQLCreatePartSpecificationTest extends CreatePartSpecificationTest 
   }
 
   protected void createRepositories() throws SQLException {
-    partSpecificationRepository = new SQLPartSpecificationRepository(new Session(
+    partSpecificationRepository = new DatabasePartSpecificationRepository(new Session(
         DriverManager.getConnection("jdbc:derby://localhost:1528/inventory")));
     supplierRepository = new InMemorySupplierRepository();
   }

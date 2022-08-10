@@ -5,6 +5,11 @@ import edu.au.cpsc.inventory.partspecification.repository.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * I implement the Repository interface by storing objects in an in-memory collection.
+ *
+ * @param <T> type of Entity that will be stored in this repository
+ */
 public class InMemoryEntityRepository<T extends Entity> implements Repository<T> {
 
   protected List<T> entities;

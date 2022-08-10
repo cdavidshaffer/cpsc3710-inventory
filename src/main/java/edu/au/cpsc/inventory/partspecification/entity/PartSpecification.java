@@ -16,6 +16,14 @@ public class PartSpecification extends Entity {
   private String description;
   private List<Supplier> suppliers;
 
+  /**
+   * Construct a PartSpecification by including all state variables.  Normally used to reify a
+   * PartSpecification from an on-disk version.
+   *
+   * @param id          (optional) id of the object
+   * @param name        (required) name of the part specification
+   * @param description (required) description of the part specification
+   */
   public PartSpecification(Long id, String name, String description) {
     this();
     setId(id);
