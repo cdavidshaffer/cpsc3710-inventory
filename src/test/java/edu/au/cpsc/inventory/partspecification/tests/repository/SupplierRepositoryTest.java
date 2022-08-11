@@ -22,15 +22,14 @@ public abstract class SupplierRepositoryTest {
   }
 
   @Test
-  public void when_supplier_saved_id_returned() throws SQLException {
+  public void when_supplier_saved_id_returned() {
     Supplier s = new Supplier();
     Long id = repository.save(s);
     assertNotNull(id);
   }
 
   @Test
-  public void when_supplier_saved_id_set_in_original_supplier_same_as_returned()
-      throws SQLException {
+  public void when_supplier_saved_id_set_in_original_supplier_same_as_returned() {
     Supplier s = new Supplier();
     Long id = repository.save(s);
     assertNotNull(s.getId());
@@ -38,14 +37,13 @@ public abstract class SupplierRepositoryTest {
   }
 
   @Test
-  public void when_no_supplier_saved_then_null_returned_from_find_one()
-      throws SQLException {
+  public void when_no_supplier_saved_then_null_returned_from_find_one() {
     Supplier s = repository.findOne(Long.valueOf(1));
     assertNull(s);
   }
 
   @Test
-  public void when_supplier_saved_then_returned_from_find_one() throws SQLException {
+  public void when_supplier_saved_then_returned_from_find_one() {
     Supplier s = new Supplier();
     s.setName("name");
     Long id = repository.save(s);
@@ -56,7 +54,7 @@ public abstract class SupplierRepositoryTest {
   }
 
   @Test
-  public void when_supplier_already_saved_then_updated() throws SQLException {
+  public void when_supplier_already_saved_then_updated() {
     Supplier s = new Supplier();
     s.setName("original name");
     Long id = repository.save(s);
@@ -70,13 +68,13 @@ public abstract class SupplierRepositoryTest {
   }
 
   @Test
-  public void when_no_suppliers_then_find_all_returns_empty_list() throws SQLException {
+  public void when_no_suppliers_then_find_all_returns_empty_list() {
     List<Supplier> suppliers = repository.findAll();
     assertEquals(0, suppliers.size());
   }
 
   @Test
-  public void when_supplier_saved_then_returned_from_find_all() throws SQLException {
+  public void when_supplier_saved_then_returned_from_find_all() {
     Supplier ps = new Supplier();
     ps.setName("name");
     Long id = repository.save(ps);

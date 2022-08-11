@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class SQLUtilities {
 
   public static void executeSqlFile(
-      String s, Connection c)
+      String s, Connection c, boolean ignoreErrors)
       throws IOException, SQLException {
     URL url = SQLUtilities.class.getResource(s);
     try (var stream = url.openStream()) {
@@ -20,6 +20,10 @@ public class SQLUtilities {
         if (!statementString.isBlank()) {
           try (Statement statement = c.createStatement()) {
             statement.execute(statementString);
+          } catch (SQLException ex) {
+            if (!ignoreErrors) {
+              throw new SQLException(ex);
+            }
           }
         }
       }

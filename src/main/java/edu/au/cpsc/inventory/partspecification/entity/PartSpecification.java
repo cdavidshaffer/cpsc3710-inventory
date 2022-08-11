@@ -23,12 +23,14 @@ public class PartSpecification extends Entity {
    * @param id          (optional) id of the object
    * @param name        (required) name of the part specification
    * @param description (required) description of the part specification
+   * @param suppliers   (required) list of suppliers associated with this part specification
    */
-  public PartSpecification(Long id, String name, String description) {
+  public PartSpecification(Long id, String name, String description, List<Supplier> suppliers) {
     this();
     setId(id);
-    setName(name);
-    setDescription(description);
+    this.name = name;
+    this.description = description;
+    this.suppliers = suppliers;
   }
 
   public PartSpecification() {

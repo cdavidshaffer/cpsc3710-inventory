@@ -2,9 +2,13 @@ package edu.au.cpsc.inventory.partspecification.repository.sql;
 
 import edu.au.cpsc.inventory.partspecification.databaseaccess.PartSpecificationDao;
 import edu.au.cpsc.inventory.partspecification.databaseaccess.PartSpecificationDto;
+import edu.au.cpsc.inventory.partspecification.databaseaccess.PartSpecificationsToSuppliersDao;
+import edu.au.cpsc.inventory.partspecification.databaseaccess.PartSpecificationsToSuppliersDto;
 import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
+import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +19,12 @@ import java.util.List;
 public class DatabasePartSpecificationRepository implements PartSpecificationRepository {
 
   private Session session;
+  private SupplierRepository supplierRepository;
 
-  public DatabasePartSpecificationRepository(Session session) {
+  public DatabasePartSpecificationRepository(Session session,
+      SupplierRepository supplierRepository) {
     this.session = session;
+    this.supplierRepository = supplierRepository;
   }
 
   @Override
@@ -26,6 +33,11 @@ public class DatabasePartSpecificationRepository implements PartSpecificationRep
     PartSpecificationDao dao = new PartSpecificationDao();
     Long id = dao.insertOrUpdate(dto, session);
     partSpecification.setId(id);
+    for (Supplier s : partSpecification.getSuppliers()) {
+      var joinTableDto = new PartSpecificationsToSuppliersDto(partSpecification.getId(), s.getId());
+      PartSpecificationsToSuppliersDao joinTableDao = new PartSpecificationsToSuppliersDao();
+      joinTableDao.insertOrUpdate(joinTableDto, session);
+    }
     session.commit();
     return id;
   }
@@ -36,7 +48,8 @@ public class DatabasePartSpecificationRepository implements PartSpecificationRep
     List<PartSpecificationDto> dtos = dao.selectAll(session);
     List<PartSpecification> specs = new ArrayList<>();
     for (PartSpecificationDto dto : dtos) {
-      PartSpecification ps = dtoToPartSpecification(dto);
+      List<Supplier> suppliers = supplierRepository.findForPartSpecificationId(dto.getId());
+      PartSpecification ps = dtoToPartSpecification(dto, suppliers);
       specs.add(ps);
     }
     return specs;
@@ -49,13 +62,15 @@ public class DatabasePartSpecificationRepository implements PartSpecificationRep
     if (dto == null) {
       return null;
     }
-    PartSpecification partSpecification = dtoToPartSpecification(dto);
+    List<Supplier> suppliers = supplierRepository.findForPartSpecificationId(id);
+    PartSpecification partSpecification = dtoToPartSpecification(dto, suppliers);
     return partSpecification;
   }
 
-  private PartSpecification dtoToPartSpecification(PartSpecificationDto dto) {
+  private PartSpecification dtoToPartSpecification(PartSpecificationDto dto,
+      List<Supplier> suppliers) {
     return new PartSpecification(dto.getId(), dto.getName(),
-        dto.getDescription());
+        dto.getDescription(), suppliers);
   }
 
   private PartSpecificationDto partSpecificationToDto(PartSpecification partSpecification) {

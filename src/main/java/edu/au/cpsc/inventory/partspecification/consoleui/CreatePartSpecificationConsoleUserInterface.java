@@ -50,7 +50,11 @@ public class CreatePartSpecificationConsoleUserInterface {
   }
 
   private void createSupplier() {
-    createPartSpecification.createSupplier(new CreatePartSpecification.DefaultSupplierModel());
+    var model = new CreatePartSpecification.DefaultSupplierModel();
+    System.out.print("Enter supplier name> ");
+    String name = scanner.nextLine();
+    model.setName(name);
+    createPartSpecification.createSupplier(model);
     System.out.println("Created!");
   }
 
@@ -66,7 +70,7 @@ public class CreatePartSpecificationConsoleUserInterface {
     System.out.println("Create part\n");
     System.out.println("Existing part specifications: ");
     for (var m : createPartSpecification.getPartSpecifications()) {
-      System.out.printf("%d) %s: %s\n", m.getId(), m.getName(), m.getDescription());
+      System.out.printf("%d) %s: %s%n", m.getId(), m.getName(), m.getDescription());
     }
 
     System.out.print("Enter id of the part specification to modify: ");
@@ -75,7 +79,7 @@ public class CreatePartSpecificationConsoleUserInterface {
 
     System.out.println("Suppliers: ");
     for (var m : createPartSpecification.getSuppliers()) {
-      System.out.printf("%d\n", m.getId());
+      System.out.printf("%d) %s%n", m.getId(), m.getName());
     }
 
     System.out.print("Enter id of the supplier to add: ");

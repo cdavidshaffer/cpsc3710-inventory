@@ -105,4 +105,33 @@ public class SupplierDao {
       throw new DatabaseOperationFailed(ex);
     }
   }
+
+  /**
+   * Fetch all rows from Suppliers that are joined to the specified part specification id using the
+   * join table.
+   *
+   * @param id      of the PartSpecification whose suppliers we need
+   * @param session database session
+   * @return list of SupplierDto's that correspond to this part specification
+   */
+  public List<SupplierDto> selectForPartSpecificationId(Long id, Session session) {
+
+    try (PreparedStatement statement = session.prepareStatement(
+        "SELECT Suppliers.id, Suppliers.name FROM Suppliers "
+            + "INNER JOIN PartSpecificationsToSuppliers "
+            + "ON Suppliers.id = PartSpecificationsToSuppliers.supplierId "
+            + "WHERE partSpecificationId=?",
+        Statement.NO_GENERATED_KEYS)) {
+      statement.setLong(1, id);
+      try (ResultSet rs = statement.executeQuery()) {
+        List<SupplierDto> result = new ArrayList<>();
+        while (rs.next()) {
+          result.add(new SupplierDto(rs.getLong(1), rs.getString(2)));
+        }
+        return result;
+      }
+    } catch (SQLException ex) {
+      throw new DatabaseOperationFailed(ex);
+    }
+  }
 }

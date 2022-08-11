@@ -61,4 +61,16 @@ public class DatabaseSupplierRepository implements SupplierRepository {
     return new SupplierDto(supplier.getId(),
         supplier.getName());
   }
+
+  @Override
+  public List<Supplier> findForPartSpecificationId(Long id) {
+    SupplierDao dao = new SupplierDao();
+    List<SupplierDto> dtos = dao.selectForPartSpecificationId(id, session);
+    List<Supplier> specs = new ArrayList<>();
+    for (SupplierDto dto : dtos) {
+      Supplier s = dtoToSupplier(dto);
+      specs.add(s);
+    }
+    return specs;
+  }
 }

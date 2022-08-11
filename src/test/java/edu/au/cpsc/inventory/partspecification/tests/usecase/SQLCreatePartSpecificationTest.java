@@ -1,8 +1,8 @@
 package edu.au.cpsc.inventory.partspecification.tests.usecase;
 
 import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
-import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
 import edu.au.cpsc.inventory.partspecification.repository.sql.DatabasePartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.sql.DatabaseSupplierRepository;
 import edu.au.cpsc.inventory.partspecification.tests.utils.SQLUtilities;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,14 +16,19 @@ public class SQLCreatePartSpecificationTest extends CreatePartSpecificationTest 
   @BeforeEach
   public void createTestDatabaseTables() throws SQLException, IOException {
     try (Connection c = DriverManager.getConnection("jdbc:derby://localhost:1528/inventory")) {
-      SQLUtilities.executeSqlFile("/sql/create_part_specifications.sql", c);
+      SQLUtilities.executeSqlFile("/sql/005_drop_all.sql", c, true);
+      SQLUtilities.executeSqlFile("/sql/010_create_part_specifications.sql", c, false);
+      SQLUtilities.executeSqlFile("/sql/020_create_suppliers.sql", c, false);
+      SQLUtilities.executeSqlFile("/sql/030_create_part_specifications_to_suppliers.sql", c, false);
       c.commit();
     }
   }
 
   protected void createRepositories() throws SQLException {
-    partSpecificationRepository = new DatabasePartSpecificationRepository(new Session(
-        DriverManager.getConnection("jdbc:derby://localhost:1528/inventory")));
-    supplierRepository = new InMemorySupplierRepository();
+    Session session = new Session(
+        DriverManager.getConnection("jdbc:derby://localhost:1528/inventory"));
+    supplierRepository = new DatabaseSupplierRepository(session);
+    partSpecificationRepository = new DatabasePartSpecificationRepository(session,
+        supplierRepository);
   }
 }

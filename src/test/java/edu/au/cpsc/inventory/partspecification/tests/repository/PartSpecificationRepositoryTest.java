@@ -21,7 +21,7 @@ public abstract class PartSpecificationRepositoryTest {
   }
 
   @Test
-  public void when_part_specification_already_saved_then_updated() throws SQLException {
+  public void when_part_specification_already_saved_then_updated() {
     PartSpecification ps = new PartSpecification();
     ps.setName("original name");
     ps.setDescription("original description");
@@ -38,7 +38,7 @@ public abstract class PartSpecificationRepositoryTest {
   }
 
   @Test
-  public void when_part_specification_saved_twice_id_not_changed() throws SQLException {
+  public void when_part_specification_saved_twice_id_not_changed() {
     PartSpecification ps = new PartSpecification();
     repository.save(ps);
     Long oldId = ps.getId();
@@ -47,15 +47,14 @@ public abstract class PartSpecificationRepositoryTest {
   }
 
   @Test
-  public void when_part_specification_saved_id_returned() throws SQLException {
+  public void when_part_specification_saved_id_returned() {
     PartSpecification ps = new PartSpecification();
     Long id = repository.save(ps);
     assertNotNull(id);
   }
 
   @Test
-  public void when_part_specification_saved_id_set_in_original_part_specification_same_as_returned()
-      throws SQLException {
+  public void when_part_specification_saved_id_set_in_original_part_specification_same_as_returned() {
     PartSpecification ps = new PartSpecification();
     Long id = repository.save(ps);
     assertNotNull(ps.getId());
@@ -63,13 +62,13 @@ public abstract class PartSpecificationRepositoryTest {
   }
 
   @Test
-  public void when_no_part_specifications_then_find_all_returns_empty_list() throws SQLException {
+  public void when_no_part_specifications_then_find_all_returns_empty_list() {
     List<PartSpecification> specifications = repository.findAll();
     assertEquals(0, specifications.size());
   }
 
   @Test
-  public void when_part_specification_saved_then_returned_from_find_all() throws SQLException {
+  public void when_part_specification_saved_then_returned_from_find_all() {
     PartSpecification ps = new PartSpecification();
     ps.setName("name");
     ps.setDescription("description");
@@ -83,14 +82,13 @@ public abstract class PartSpecificationRepositoryTest {
   }
 
   @Test
-  public void when_no_part_specification_saved_then_null_returned_from_find_one()
-      throws SQLException {
+  public void when_no_part_specification_saved_then_null_returned_from_find_one() {
     PartSpecification ps = repository.findOne(Long.valueOf(1));
     assertNull(ps);
   }
 
   @Test
-  public void when_part_specification_saved_then_returned_from_find_one() throws SQLException {
+  public void when_part_specification_saved_then_returned_from_find_one() {
     PartSpecification ps = new PartSpecification();
     ps.setName("name");
     ps.setDescription("description");

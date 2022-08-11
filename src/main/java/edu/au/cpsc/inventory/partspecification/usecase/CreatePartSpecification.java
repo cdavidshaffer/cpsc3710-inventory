@@ -70,6 +70,7 @@ public class CreatePartSpecification {
     PartSpecification ps = partSpecificationRepository.findOne(partSpecificationId);
     var s = supplierRepository.findOne(supplierId);
     ps.addSupplier(s);
+    partSpecificationRepository.save(ps);
   }
 
   private PartSpecificationModel partSpecificationToModel(PartSpecification ps) {
@@ -90,11 +91,14 @@ public class CreatePartSpecification {
   private SupplierModel supplierToModel(Supplier s) {
     SupplierModel supplierModel = new DefaultSupplierModel();
     supplierModel.setId(s.getId());
+    supplierModel.setName(s.getName());
     return supplierModel;
   }
 
   private Supplier modelToSupplier(SupplierModel sm) {
-    return new Supplier();
+    Supplier supplier = new Supplier();
+    supplier.setName(sm.getName());
+    return supplier;
   }
 
 
@@ -115,6 +119,10 @@ public class CreatePartSpecification {
     Long getId();
 
     void setId(Long id);
+
+    String getName();
+
+    void setName(String name);
   }
 
   /**
@@ -142,6 +150,16 @@ public class CreatePartSpecification {
   public static class DefaultSupplierModel implements SupplierModel {
 
     private Long id;
+    private String name;
+
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public void setName(String name) {
+      this.name = name;
+    }
 
     @Override
     public Long getId() {

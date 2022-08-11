@@ -15,7 +15,8 @@ public class DatabaseSupplierRepositoryTest extends SupplierRepositoryTest {
   @BeforeEach
   public void createTestDatabaseTables() throws SQLException, IOException {
     try (Connection c = DriverManager.getConnection("jdbc:derby://localhost:1528/inventory")) {
-      SQLUtilities.executeSqlFile("/sql/create_suppliers.sql", c);
+      SQLUtilities.executeSqlFile("/sql/005_drop_all.sql", c, true);
+      SQLUtilities.executeSqlFile("/sql/020_create_suppliers.sql", c, false);
       c.commit();
     }
   }
