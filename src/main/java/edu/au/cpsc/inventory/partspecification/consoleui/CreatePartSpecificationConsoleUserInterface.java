@@ -123,27 +123,35 @@ public class CreatePartSpecificationConsoleUserInterface {
 
   private void displayMainMenu() {
     System.out.println("\n\nMain menu");
-    System.out.println("c) Create part specification");
-    System.out.println("a) Assign supplier to part specification");
-    System.out.println("s) Create supplier");
-    System.out.println("q) Quit");
+    for (MenuResponse r : MenuResponse.values()) {
+      if (r != MenuResponse.INVALID) {
+        System.out.println(r);
+      }
+    }
   }
 
   private enum MenuResponse {
-    QUIT('q'),
-    CREATE_PART_SPECIFICATION('c'),
-    ASSIGN_SUPPLIER('a'),
-    INVALID('?'),
-    CREATE_SUPPLIER('s');
+    CREATE_PART_SPECIFICATION('c', "Create part specification"),
+    ASSIGN_SUPPLIER('a', "Assign supplier to part specification"),
+    INVALID('?', "INVALID"),
+    CREATE_SUPPLIER('s', "Create supplier"),
+    QUIT('q', "Quit");
 
     private final char inputCharacter;
+    private final String description;
 
-    MenuResponse(char inputCharacter) {
+    MenuResponse(char inputCharacter, String description) {
       this.inputCharacter = inputCharacter;
+      this.description = description;
     }
 
     public char getInputCharacter() {
       return inputCharacter;
+    }
+
+    @Override
+    public String toString() {
+      return inputCharacter + ") " + description;
     }
   }
 }
