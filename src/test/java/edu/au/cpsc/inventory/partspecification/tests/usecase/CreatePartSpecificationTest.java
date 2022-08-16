@@ -1,25 +1,33 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.tests.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
+import edu.au.cpsc.inventory.partspecification.entity.Supplier;
+import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
+import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
+import java.sql.SQLException;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CreatePartSpecificationTest {
+public abstract class CreatePartSpecificationTest {
 
-  private PartSpecificationRepository partSpecificationRepository;
+  protected PartSpecificationRepository partSpecificationRepository;
+  protected SupplierRepository supplierRepository;
   private CreatePartSpecification useCase;
-  private SupplierRepository supplierRepository;
 
   @BeforeEach
-  public void setUp() {
-    partSpecificationRepository = new PartSpecificationRepository();
-    supplierRepository = new SupplierRepository();
+  public void setUp() throws SQLException {
+    createRepositories();
     useCase = new CreatePartSpecification(partSpecificationRepository, supplierRepository);
   }
+
+  protected abstract void createRepositories() throws SQLException;
 
   @Test
   public void given_no_part_specifications_then_none_listed() {
@@ -59,7 +67,7 @@ public class CreatePartSpecificationTest {
     partSpecificationModel.setDescription("description");
     Long id = useCase.createPartSpecification(partSpecificationModel);
 
-    var specs = partSpecificationRepository.findAll();
+    List<PartSpecification> specs = partSpecificationRepository.findAll();
 
     assertEquals(1, specs.size());
     assertEquals(id, specs.get(0).getId());

@@ -1,4 +1,4 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,28 @@ import java.util.List;
  *
  * <p>Part specifications that have been persisted are assigned an id.
  */
-public class PartSpecification {
+public class PartSpecification extends Entity {
 
-  private List<Supplier> suppliers;
-  private Long id;
   private String name;
   private String description;
+  private List<Supplier> suppliers;
+
+  /**
+   * Construct a PartSpecification by including all state variables.  Normally used to reify a
+   * PartSpecification from an on-disk version.
+   *
+   * @param id          (optional) id of the object
+   * @param name        (required) name of the part specification
+   * @param description (required) description of the part specification
+   * @param suppliers   (required) list of suppliers associated with this part specification
+   */
+  public PartSpecification(Long id, String name, String description, List<Supplier> suppliers) {
+    this();
+    setId(id);
+    this.name = name;
+    this.description = description;
+    this.suppliers = suppliers;
+  }
 
   public PartSpecification() {
     suppliers = new ArrayList<>();
@@ -48,14 +64,6 @@ public class PartSpecification {
 
   public List<Supplier> getSuppliers() {
     return suppliers;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
 

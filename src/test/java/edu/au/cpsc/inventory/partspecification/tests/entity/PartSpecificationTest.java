@@ -1,7 +1,9 @@
-package edu.au.cpsc.inventory.partspecification;
+package edu.au.cpsc.inventory.partspecification.tests.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
+import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import org.junit.jupiter.api.Test;
 
 public class PartSpecificationTest {

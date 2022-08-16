@@ -20,6 +20,12 @@
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <compilerArgs>
+              <args>-Xlint:all</args>
+            </compilerArgs>
+            <failOnWarning>true</failOnWarning>
+          </configuration>
           <version>3.8.0</version>
         </plugin>
         <plugin>
@@ -49,13 +55,48 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+          <consoleOutput>false</consoleOutput>
+          <encoding>UTF-8</encoding>
+          <violationSeverity>warning</violationSeverity>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <artifactId>checkstyle</artifactId>
+            <groupId>com.puppycrawl.tools</groupId>
+            <version>10.3.1</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <id>validate</id>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.1.2</version>
+      </plugin>
+    </plugins>
   </build>
-  
+
   <dependencies>
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>derbyclient</artifactId>
+      <groupId>org.apache.derby</groupId>
+      <scope>compile</scope>
+      <version>10.15.2.0</version>
     </dependency>
   </dependencies>
 
