@@ -45,7 +45,7 @@ public class DatabaseSupplierRepository implements SupplierRepository {
     }
     List<Supplier> result = new ArrayList<>();
     for (Supplier ps : specs) {
-      Supplier fromCache = (Supplier) cache.get(Supplier.class, ps.getId());
+      Supplier fromCache = cache.get(Supplier.class, ps.getId());
       if (fromCache == null) {
         result.add(ps);
         cache.insert(ps.getId(), ps);
@@ -58,7 +58,7 @@ public class DatabaseSupplierRepository implements SupplierRepository {
 
   @Override
   public Supplier findOne(Long id) {
-    Supplier result = (Supplier) cache.get(Supplier.class, id);
+    Supplier result = cache.get(Supplier.class, id);
     if (result != null) {
       return result;
     }
@@ -83,7 +83,7 @@ public class DatabaseSupplierRepository implements SupplierRepository {
     }
     List<Supplier> result = new ArrayList<>();
     for (Supplier ps : specs) {
-      Supplier fromCache = (Supplier) cache.get(Supplier.class, ps.getId());
+      Supplier fromCache = cache.get(Supplier.class, ps.getId());
       if (fromCache == null) {
         result.add(ps);
         cache.insert(ps.getId(), ps);

@@ -62,7 +62,7 @@ public class Cache {
    * @param id   unique (by class) identifier for this object
    * @return null if not found, otherwise the cahced object
    */
-  public Entity get(Class<?> type, Long id) {
-    return map.get(new Key(type.getName(), id));
+  public <T> T get(Class<T> type, Long id) {
+    return type.cast(map.get(new Key(type.getName(), id)));
   }
 }

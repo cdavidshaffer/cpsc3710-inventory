@@ -64,7 +64,7 @@ public class DatabasePartSpecificationRepository implements PartSpecificationRep
     }
     List<PartSpecification> result = new ArrayList<>();
     for (PartSpecification ps : specs) {
-      PartSpecification fromCache = (PartSpecification) cache.get(PartSpecification.class,
+      PartSpecification fromCache = cache.get(PartSpecification.class,
           ps.getId());
       if (fromCache == null) {
         result.add(ps);
@@ -78,7 +78,7 @@ public class DatabasePartSpecificationRepository implements PartSpecificationRep
 
   @Override
   public PartSpecification findOne(Long id) {
-    PartSpecification result = (PartSpecification) cache.get(PartSpecification.class, id);
+    PartSpecification result = cache.get(PartSpecification.class, id);
     if (result != null) {
       return result;
     }
