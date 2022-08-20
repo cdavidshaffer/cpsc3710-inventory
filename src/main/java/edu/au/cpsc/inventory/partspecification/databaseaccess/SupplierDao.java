@@ -118,8 +118,8 @@ public class SupplierDao {
 
     try (PreparedStatement statement = session.prepareStatement(
         "SELECT Suppliers.id, Suppliers.name FROM Suppliers "
-            + "INNER JOIN PartSpecificationsToSuppliers "
-            + "ON Suppliers.id = PartSpecificationsToSuppliers.supplierId "
+            + "INNER JOIN PartSpecifications_Suppliers "
+            + "ON Suppliers.id = PartSpecifications_Suppliers.supplierId "
             + "WHERE partSpecificationId=?",
         Statement.NO_GENERATED_KEYS)) {
       statement.setLong(1, id);

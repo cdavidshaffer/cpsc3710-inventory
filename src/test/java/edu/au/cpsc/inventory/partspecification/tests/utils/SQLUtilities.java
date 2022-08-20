@@ -18,9 +18,11 @@ public class SQLUtilities {
       String fileContents = new String(bytes, StandardCharsets.UTF_8);
       for (var statementString : fileContents.split(";")) {
         if (!statementString.isBlank()) {
+          System.out.println("<" + statementString.trim() + ">");
           try (Statement statement = c.createStatement()) {
-            statement.execute(statementString);
+            statement.execute(statementString.trim());
           } catch (SQLException ex) {
+            System.out.println("Failed");
             if (!ignoreErrors) {
               throw new SQLException(ex);
             }

@@ -1,5 +1,7 @@
 package edu.au.cpsc.inventory.partspecification.entity;
 
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +12,13 @@ import java.util.List;
  *
  * <p>Part specifications that have been persisted are assigned an id.
  */
+@jakarta.persistence.Entity
+@Table(name = "PartSpecifications")
 public class PartSpecification extends Entity {
 
   private String name;
   private String description;
+  @ManyToMany
   private List<Supplier> suppliers;
 
   /**

@@ -1,4 +1,4 @@
-CREATE TABLE PartSpecificationsToSuppliers
+CREATE TABLE PartSpecifications_Suppliers
 (
     partSpecificationId BIGINT NOT NULL,
     supplierId          BIGINT NOT NULL,

@@ -33,7 +33,7 @@ public class PartSpecificationsToSuppliersDao {
 
   private Long insert(PartSpecificationsToSuppliersDto dto, Session session) throws SQLException {
     try (PreparedStatement statement = session.prepareStatement(
-        "INSERT INTO PartSpecificationsToSuppliers(partSpecificationId, supplierId) VALUES (?, ?)",
+        "INSERT INTO PartSpecifications_Suppliers(partSpecificationId, supplierId) VALUES (?, ?)",
         Statement.NO_GENERATED_KEYS)) {
       statement.setLong(1, dto.getPartSpecificationId());
       statement.setLong(2, dto.getSupplierId());
