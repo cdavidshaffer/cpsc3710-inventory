@@ -9,6 +9,7 @@ import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.caching.Cache;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,20 @@ import java.util.List;
  */
 public class DatabasePartSpecificationRepository implements PartSpecificationRepository {
 
+  private final Cache cache;
   private Session session;
   private SupplierRepository supplierRepository;
 
+  /**
+   * Create a repository.  I need access to a SupplierRepository so I can load the corresponding
+   * suppliers.
+   *
+   * @param session            database session
+   * @param supplierRepository supplier repository
+   */
   public DatabasePartSpecificationRepository(Session session,
       SupplierRepository supplierRepository) {
+    this.cache = new Cache();
     this.session = session;
     this.supplierRepository = supplierRepository;
   }
@@ -52,19 +62,35 @@ public class DatabasePartSpecificationRepository implements PartSpecificationRep
       PartSpecification ps = dtoToPartSpecification(dto, suppliers);
       specs.add(ps);
     }
-    return specs;
+    List<PartSpecification> result = new ArrayList<>();
+    for (PartSpecification ps : specs) {
+      PartSpecification fromCache = (PartSpecification) cache.get(PartSpecification.class,
+          ps.getId());
+      if (fromCache == null) {
+        result.add(ps);
+        cache.insert(ps.getId(), ps);
+      } else {
+        result.add(fromCache);
+      }
+    }
+    return result;
   }
 
   @Override
   public PartSpecification findOne(Long id) {
+    PartSpecification result = (PartSpecification) cache.get(PartSpecification.class, id);
+    if (result != null) {
+      return result;
+    }
     PartSpecificationDao dao = new PartSpecificationDao();
     PartSpecificationDto dto = dao.selectOne(id, session);
     if (dto == null) {
       return null;
     }
     List<Supplier> suppliers = supplierRepository.findForPartSpecificationId(id);
-    PartSpecification partSpecification = dtoToPartSpecification(dto, suppliers);
-    return partSpecification;
+    result = dtoToPartSpecification(dto, suppliers);
+    cache.insert(id, result);
+    return result;
   }
 
   private PartSpecification dtoToPartSpecification(PartSpecificationDto dto,

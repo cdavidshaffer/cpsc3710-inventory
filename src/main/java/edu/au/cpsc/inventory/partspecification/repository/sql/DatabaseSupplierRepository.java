@@ -3,8 +3,10 @@ package edu.au.cpsc.inventory.partspecification.repository.sql;
 import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
 import edu.au.cpsc.inventory.partspecification.databaseaccess.SupplierDao;
 import edu.au.cpsc.inventory.partspecification.databaseaccess.SupplierDto;
+import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.caching.Cache;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,11 @@ import java.util.List;
  */
 public class DatabaseSupplierRepository implements SupplierRepository {
 
+  private final Cache cache;
   private Session session;
 
   public DatabaseSupplierRepository(Session session) {
+    this.cache = new Cache();
     this.session = session;
   }
 
@@ -39,27 +43,33 @@ public class DatabaseSupplierRepository implements SupplierRepository {
       Supplier s = dtoToSupplier(dto);
       specs.add(s);
     }
-    return specs;
+    List<Supplier> result = new ArrayList<>();
+    for (Supplier ps : specs) {
+      Supplier fromCache = (Supplier) cache.get(Supplier.class, ps.getId());
+      if (fromCache == null) {
+        result.add(ps);
+        cache.insert(ps.getId(), ps);
+      } else {
+        result.add(fromCache);
+      }
+    }
+    return result;
   }
 
   @Override
   public Supplier findOne(Long id) {
+    Supplier result = (Supplier) cache.get(Supplier.class, id);
+    if (result != null) {
+      return result;
+    }
     SupplierDao dao = new SupplierDao();
     SupplierDto dto = dao.selectOne(id, session);
     if (dto == null) {
       return null;
     }
-    Supplier supplier = dtoToSupplier(dto);
-    return supplier;
-  }
-
-  private Supplier dtoToSupplier(SupplierDto dto) {
-    return new Supplier(dto.getId(), dto.getName());
-  }
-
-  private SupplierDto supplierToDto(Supplier supplier) {
-    return new SupplierDto(supplier.getId(),
-        supplier.getName());
+    result = dtoToSupplier(dto);
+    cache.insert(id, result);
+    return result;
   }
 
   @Override
@@ -71,6 +81,27 @@ public class DatabaseSupplierRepository implements SupplierRepository {
       Supplier s = dtoToSupplier(dto);
       specs.add(s);
     }
-    return specs;
+    List<Supplier> result = new ArrayList<>();
+    for (Supplier ps : specs) {
+      Supplier fromCache = (Supplier) cache.get(Supplier.class, ps.getId());
+      if (fromCache == null) {
+        result.add(ps);
+        cache.insert(ps.getId(), ps);
+      } else {
+        result.add(fromCache);
+      }
+    }
+    return result;
   }
+
+  private Supplier dtoToSupplier(SupplierDto dto) {
+    return new Supplier(dto.getId(), dto.getName());
+  }
+
+  private SupplierDto supplierToDto(Supplier supplier) {
+    return new SupplierDto(supplier.getId(),
+        supplier.getName());
+  }
+
+
 }

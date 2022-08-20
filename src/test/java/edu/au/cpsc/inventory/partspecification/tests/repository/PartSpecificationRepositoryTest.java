@@ -3,6 +3,7 @@ package edu.au.cpsc.inventory.partspecification.tests.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
@@ -98,6 +99,26 @@ public abstract class PartSpecificationRepositoryTest {
     assertEquals(id, psFromRepository.getId());
     assertEquals("name", psFromRepository.getName());
     assertEquals("description", psFromRepository.getDescription());
+  }
+
+  @Test
+  public void when_part_specification_found_by_id_twice_then_objects_same() {
+    PartSpecification ps = new PartSpecification();
+    Long id = repository.save(ps);
+
+    var psFromRepository1 = repository.findOne(id);
+    var psFromRepository2 = repository.findOne(id);
+
+    assertSame(psFromRepository1, psFromRepository2);
+  }
+
+  @Test
+  public void when_part_specification_found_by_find_all_then_objects_same() {
+    PartSpecification ps = new PartSpecification();
+    Long id = repository.save(ps);
+    List<PartSpecification> specifications = repository.findAll();
+    var psFromRepository = repository.findOne(id);
+    assertSame(specifications.get(0), psFromRepository);
   }
 
   protected abstract PartSpecificationRepository createRepository() throws SQLException;

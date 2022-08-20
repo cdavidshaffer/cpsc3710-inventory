@@ -3,7 +3,9 @@ package edu.au.cpsc.inventory.partspecification.tests.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
+import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import java.sql.SQLException;
@@ -75,14 +77,35 @@ public abstract class SupplierRepositoryTest {
 
   @Test
   public void when_supplier_saved_then_returned_from_find_all() {
-    Supplier ps = new Supplier();
-    ps.setName("name");
-    Long id = repository.save(ps);
+    Supplier supplier = new Supplier();
+    supplier.setName("name");
+    Long id = repository.save(supplier);
     List<Supplier> suppliers = repository.findAll();
     assertEquals(1, suppliers.size());
     Supplier psFromRepository = suppliers.get(0);
     assertEquals(id, psFromRepository.getId());
     assertEquals("name", psFromRepository.getName());
+  }
+
+  @Test
+  public void when_part_specification_found_by_id_twice_then_objects_same() {
+    Supplier supplier = new Supplier();
+    supplier.setName("name");
+    Long id = repository.save(supplier);
+
+    var supplierFromRepository1 = repository.findOne(id);
+    var supplierFromRepository2 = repository.findOne(id);
+
+    assertSame(supplierFromRepository1, supplierFromRepository2);
+  }
+
+  @Test
+  public void when_supplier_found_by_find_all_then_objects_same() {
+    Supplier supplier = new Supplier();
+    Long id = repository.save(supplier);
+    List<Supplier> suppliers = repository.findAll();
+    var supplierFromRepository = repository.findOne(id);
+    assertSame(suppliers.get(0), supplierFromRepository);
   }
 
   protected abstract SupplierRepository createRepository() throws SQLException;
