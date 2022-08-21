@@ -49,7 +49,7 @@ public class CreatePartSpecificationConsoleUserInterface {
   }
 
   private void createSupplier() {
-    createPartSpecification.createSupplier(new CreatePartSpecification.DefaultSupplierModel());
+    createPartSpecification.createSupplier(new CreatePartSpecification.SupplierModel());
     System.out.println("Created!");
   }
 
@@ -99,7 +99,7 @@ public class CreatePartSpecificationConsoleUserInterface {
     String name = scanner.nextLine();
     System.out.print("Enter part specification description: ");
     String description = scanner.nextLine();
-    var model = new CreatePartSpecification.DefaultPartSpecificationModel();
+    var model = new CreatePartSpecification.PartSpecificationModel();
     model.setName(name);
     model.setDescription(description);
     createPartSpecification.createPartSpecification(model);

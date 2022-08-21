@@ -69,7 +69,7 @@ public class CreatePartSpecification {
   }
 
   private PartSpecificationModel partSpecificationToModel(PartSpecification ps) {
-    PartSpecificationModel partSpecificationModel = new DefaultPartSpecificationModel();
+    PartSpecificationModel partSpecificationModel = new PartSpecificationModel();
     partSpecificationModel.setName(ps.getName());
     partSpecificationModel.setDescription(ps.getDescription());
     partSpecificationModel.setId(ps.getId());
@@ -84,7 +84,7 @@ public class CreatePartSpecification {
   }
 
   private SupplierModel supplierToModel(Supplier s) {
-    SupplierModel supplierModel = new DefaultSupplierModel();
+    SupplierModel supplierModel = new SupplierModel();
     supplierModel.setId(s.getId());
     return supplierModel;
   }
@@ -104,90 +104,54 @@ public class CreatePartSpecification {
   }
 
   /**
-   * A "supplier model" can provide data about a supplier that is relevant to this use case.
-   */
-  public interface SupplierModel {
-
-    Long getId();
-
-    void setId(Long id);
-  }
-
-  /**
    * A "part specification model" can provide data about a part specification that is relevant to
    * this use case.
    */
-  public interface PartSpecificationModel {
-
-    String getName();
-
-    void setName(String name);
-
-    String getDescription();
-
-    void setDescription(String description);
-
-    Long getId();
-
-    void setId(Long id);
-  }
-
-  /**
-   * An implementation of SupplierModel that stores all properties in fields.
-   */
-  public static class DefaultSupplierModel implements SupplierModel {
-
-    private Long id;
-
-    @Override
-    public Long getId() {
-      return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-      this.id = id;
-    }
-  }
-
-  /**
-   * An implementation of PartSpecificationModel that stores all properties in fields.
-   */
-  public static class DefaultPartSpecificationModel implements
-      PartSpecificationModel {
+  public static class PartSpecificationModel {
 
     private String name;
     private String description;
     private Long id;
 
-    @Override
     public String getName() {
       return name;
     }
 
-    @Override
     public void setName(String name) {
       this.name = name;
     }
 
-    @Override
     public String getDescription() {
       return description;
     }
 
-    @Override
     public void setDescription(String description) {
       this.description = description;
     }
 
-    @Override
     public Long getId() {
       return id;
     }
 
-    @Override
     public void setId(Long id) {
       this.id = id;
     }
   }
+
+  /**
+   * A "supplier model" can provide data about a supplier that is relevant to this use case.
+   */
+  public static class SupplierModel {
+
+    private Long id;
+
+    public Long getId() {
+      return id;
+    }
+
+    public void setId(Long id) {
+      this.id = id;
+    }
+  }
+  
 }
