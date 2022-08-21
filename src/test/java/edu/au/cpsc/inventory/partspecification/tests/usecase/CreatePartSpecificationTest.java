@@ -62,7 +62,8 @@ public abstract class CreatePartSpecificationTest {
 
   @Test
   public void given_no_part_specifications_when_part_saved_then_one_part_present_in_repository() {
-    CreatePartSpecification.PartSpecificationModel partSpecificationModel = new CreatePartSpecification.DefaultPartSpecificationModel();
+    CreatePartSpecification.PartSpecificationModel partSpecificationModel =
+        new CreatePartSpecification.PartSpecificationModel();
     partSpecificationModel.setName("name");
     partSpecificationModel.setDescription("description");
     Long id = useCase.createPartSpecification(partSpecificationModel);
@@ -116,7 +117,7 @@ public abstract class CreatePartSpecificationTest {
 
   @Test
   public void given_no_suppliers_when_one_created_then_one_in_repository() {
-    useCase.createSupplier(new CreatePartSpecification.DefaultSupplierModel());
+    useCase.createSupplier(new CreatePartSpecification.SupplierModel());
     assertEquals(1, supplierRepository.findAll().size());
   }
 
@@ -129,7 +130,8 @@ public abstract class CreatePartSpecificationTest {
 
   @Test
   public void given_created_part_specification_the_id_not_null() {
-    CreatePartSpecification.PartSpecificationModel ps = new CreatePartSpecification.DefaultPartSpecificationModel();
+    CreatePartSpecification.PartSpecificationModel ps =
+        new CreatePartSpecification.PartSpecificationModel();
     Long id = useCase.createPartSpecification(ps);
 
     assertNotNull(partSpecificationRepository.findOne(id));
@@ -137,8 +139,8 @@ public abstract class CreatePartSpecificationTest {
 
   @Test
   public void given_two_created_part_specifications_their_ids_will_be_different() {
-    var ps1 = new CreatePartSpecification.DefaultPartSpecificationModel();
-    var ps2 = new CreatePartSpecification.DefaultPartSpecificationModel();
+    var ps1 = new CreatePartSpecification.PartSpecificationModel();
+    var ps2 = new CreatePartSpecification.PartSpecificationModel();
     Long id1 = useCase.createPartSpecification(ps1);
     Long id2 = useCase.createPartSpecification(ps2);
 
