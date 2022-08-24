@@ -99,6 +99,12 @@
       <version>10.15.2.0</version>
     </dependency>
     <dependency>
+      <artifactId>derby</artifactId>
+      <groupId>org.apache.derby</groupId>
+      <scope>test</scope>
+      <version>10.15.2.0</version>
+    </dependency>
+    <dependency>
       <artifactId>hibernate-core</artifactId>
       <groupId>org.hibernate</groupId>
       <version>6.1.2.Final</version>

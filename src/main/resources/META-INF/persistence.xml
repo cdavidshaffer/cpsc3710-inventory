@@ -7,7 +7,8 @@
   <!-- Test -->
   <persistence-unit name="inventory-test">
     <properties>
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:derby://localhost:1528/inventory"/>
+      <property name="jakarta.persistence.jdbc.url"
+        value="jdbc:derby:memory:inventory;create=true"/>
       <property name="hibernate.hbm2ddl.auto" value="create"/>
       <property name="hibernate.default_schema" value="APP"/>
     </properties>
