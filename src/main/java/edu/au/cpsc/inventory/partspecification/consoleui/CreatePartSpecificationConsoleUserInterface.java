@@ -111,11 +111,17 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
+  /**
+   * Menu actions.
+   */
   public static interface MenuAction {
 
     void execute(CreatePartSpecification createPartSpecification, Scanner scanner);
   }
 
+  /**
+   * Create a supplier.
+   */
   public static class CreateSupplierAction implements MenuAction {
 
     @Override
@@ -129,6 +135,9 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
+  /**
+   * Assign a supplier to a part specification.
+   */
   public static class AssignSupplierAction implements MenuAction {
 
     @Override
@@ -164,6 +173,9 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
+  /**
+   * Quit -- actually, this is detected by the main loop so we don't do anything here.
+   */
   public static class QuitAction implements MenuAction {
 
     @Override
@@ -172,6 +184,9 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
+  /**
+   * List part specifications.
+   */
   public static class ListPartSpecificationsAction implements MenuAction {
 
     @Override
@@ -183,6 +198,9 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
+  /**
+   * Create a part specification.
+   */
   public static class CreatePartSpecificationAction implements MenuAction {
 
     @Override
