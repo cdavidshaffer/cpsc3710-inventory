@@ -4,10 +4,20 @@
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
+  <!-- Test -->
   <persistence-unit name="inventory-test">
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:derby://localhost:1528/inventory"/>
       <property name="hibernate.hbm2ddl.auto" value="create"/>
+      <property name="hibernate.default_schema" value="APP"/>
+    </properties>
+  </persistence-unit>
+
+  <!-- Live! -->
+  <persistence-unit name="inventory">
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:derby://localhost:1528/inventory"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
       <property name="hibernate.default_schema" value="APP"/>
     </properties>
   </persistence-unit>

@@ -1,10 +1,11 @@
 package edu.au.cpsc.inventory.partspecification.consoleui;
 
-import edu.au.cpsc.inventory.partspecification.databaseaccess.Session;
-import edu.au.cpsc.inventory.partspecification.repository.sql.DatabasePartSpecificationRepository;
-import edu.au.cpsc.inventory.partspecification.repository.sql.DatabaseSupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaPartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaSupplierRepository;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
-import java.sql.DriverManager;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import java.sql.SQLException;
 
 /**
@@ -19,13 +20,17 @@ public class Main {
    * @param args command line arguments
    */
   public static void main(String[] args) throws SQLException {
-    Session session = new Session(
-        DriverManager.getConnection("jdbc:derby://localhost:1528/inventory"));
-    DatabaseSupplierRepository supplierRepository = new DatabaseSupplierRepository(session);
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
+        "inventory");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    JpaSupplierRepository supplierRepository = new JpaSupplierRepository(entityManager);
+    JpaPartSpecificationRepository partSpecificationRepository = new JpaPartSpecificationRepository(
+        entityManager);
+    CreatePartSpecification useCase = new CreatePartSpecification(
+        partSpecificationRepository,
+        supplierRepository);
     new CreatePartSpecificationConsoleUserInterface(
-        new CreatePartSpecification(
-            new DatabasePartSpecificationRepository(session, supplierRepository),
-            supplierRepository)).run();
+        useCase).run();
   }
 
 }
