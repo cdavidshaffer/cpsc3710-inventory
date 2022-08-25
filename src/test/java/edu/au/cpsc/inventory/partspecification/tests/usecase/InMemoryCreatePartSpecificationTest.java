@@ -2,11 +2,15 @@ package edu.au.cpsc.inventory.partspecification.tests.usecase;
 
 import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemoryPartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.repository.inmemory.InMemorySupplierRepository;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
 
 public class InMemoryCreatePartSpecificationTest extends CreatePartSpecificationTest {
 
   protected void createRepositories() {
-    partSpecificationRepository = new InMemoryPartSpecificationRepository();
-    supplierRepository = new InMemorySupplierRepository();
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    partSpecificationRepository = new InMemoryPartSpecificationRepository(
+        validatorFactory.getValidator());
+    supplierRepository = new InMemorySupplierRepository(validatorFactory.getValidator());
   }
 }

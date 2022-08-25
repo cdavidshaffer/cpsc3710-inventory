@@ -25,8 +25,14 @@ public abstract class JpaRepository<T extends Entity> implements Repository<T> {
   public Long save(T entity) {
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
-    entityManager.persist(entity);
-    transaction.commit();
+    try {
+      entityManager.persist(entity);
+      transaction.commit();
+    } finally {
+      if (transaction.isActive()) {
+        transaction.rollback();
+      }
+    }
     return entity.getId();
   }
 

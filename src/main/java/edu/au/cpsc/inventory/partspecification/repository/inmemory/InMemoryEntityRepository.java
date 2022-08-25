@@ -2,8 +2,12 @@ package edu.au.cpsc.inventory.partspecification.repository.inmemory;
 
 import edu.au.cpsc.inventory.partspecification.entity.Entity;
 import edu.au.cpsc.inventory.partspecification.repository.Repository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * I implement the Repository interface by storing objects in an in-memory collection.
@@ -14,8 +18,15 @@ public class InMemoryEntityRepository<T extends Entity> implements Repository<T>
 
   protected List<T> entities;
   protected long lastId;
+  private Validator validator;
 
-  public InMemoryEntityRepository() {
+  /**
+   * Create an in-memory repository that uses the supplied validator to validate entities on save.
+   *
+   * @param validator the validator to use during save operations
+   */
+  public InMemoryEntityRepository(Validator validator) {
+    this.validator = validator;
     entities = new ArrayList<T>();
     lastId = 0;
   }
@@ -40,6 +51,10 @@ public class InMemoryEntityRepository<T extends Entity> implements Repository<T>
    */
   @Override
   public Long save(T entity) {
+    Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+    if (!constraintViolations.isEmpty()) {
+      throw new ConstraintViolationException(constraintViolations);
+    }
     ensureId(entity);
     entities.add(entity);
     return entity.getId();

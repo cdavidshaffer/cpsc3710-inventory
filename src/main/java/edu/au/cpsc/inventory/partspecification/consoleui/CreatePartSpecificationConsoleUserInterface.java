@@ -38,22 +38,6 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
-  private void listPartSpecifications() {
-
-  }
-
-  private void createSupplier() {
-
-  }
-
-  private void assignSupplier() {
-
-  }
-
-  private void createPartSpecification() {
-
-  }
-
   private MenuResponse getMenuResponse() {
     System.out.print("Enter selection> ");
     String line = scanner.nextLine();
@@ -75,11 +59,11 @@ public class CreatePartSpecificationConsoleUserInterface {
   }
 
   private enum MenuResponse {
-    CREATE_PART_SPECIFICATION('c', "Create part specification",
-        new CreatePartSpecificationAction()),
+    CREATE_PART_SPECIFICATION('c', "Create part specification", new
+        CreatePartSpecificationAction()),
     LIST_PART_SPECIFICATIONS('l', "List part specifications",
-        new ListPartSpecificationsAction()),
-    ASSIGN_SUPPLIER('a', "Assign supplier to part specification",
+        new ListPartSpecificationsAction()), ASSIGN_SUPPLIER('a',
+        "Assign supplier to part specification",
         new AssignSupplierAction()),
     INVALID('?', "INVALID", null),
     CREATE_SUPPLIER('s', "Create supplier", new CreateSupplierAction()),
@@ -90,7 +74,8 @@ public class CreatePartSpecificationConsoleUserInterface {
     private MenuAction action;
 
     MenuResponse(char inputCharacter, String description, MenuAction action) {
-      this.inputCharacter = inputCharacter;
+      this.inputCharacter
+          = inputCharacter;
       this.description = description;
       this.action = action;
     }
@@ -105,7 +90,8 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
 
     void execute(CreatePartSpecification createPartSpecification, Scanner scanner) {
-      if (action != null) {
+      if (action
+          != null) {
         action.execute(createPartSpecification, scanner);
       }
     }
@@ -130,8 +116,16 @@ public class CreatePartSpecificationConsoleUserInterface {
       System.out.print("Enter supplier name> ");
       String name = scanner.nextLine();
       model.setName(name);
-      createPartSpecification.createSupplier(model);
-      System.out.println("Created!");
+      try {
+        createPartSpecification.createSupplier(model);
+        System.out.println("Created!");
+      } catch (jakarta.validation.ConstraintViolationException ex) {
+        System.out.println("\n\nFailed to create supplier:");
+        for (var violation : ex.getConstraintViolations()) {
+          System.out.println("\t" + violation.getPropertyPath() + " " + violation.getMessage());
+        }
+      }
+
     }
   }
 

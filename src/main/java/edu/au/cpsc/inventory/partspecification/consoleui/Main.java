@@ -6,6 +6,8 @@ import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
 import java.sql.SQLException;
 
 /**
@@ -20,6 +22,7 @@ public class Main {
    * @param args command line arguments
    */
   public static void main(String[] args) throws SQLException {
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
         "inventory");
     EntityManager entityManager = entityManagerFactory.createEntityManager();

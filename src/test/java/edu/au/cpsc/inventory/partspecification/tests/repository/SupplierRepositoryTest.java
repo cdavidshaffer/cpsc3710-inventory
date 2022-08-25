@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +26,7 @@ public abstract class SupplierRepositoryTest {
   @Test
   public void when_supplier_saved_id_returned() {
     Supplier s = new Supplier();
+    s.setName("name");
     Long id = repository.save(s);
     assertNotNull(id);
   }
@@ -33,6 +34,7 @@ public abstract class SupplierRepositoryTest {
   @Test
   public void when_supplier_saved_id_set_in_original_supplier_same_as_returned() {
     Supplier s = new Supplier();
+    s.setName("name");
     Long id = repository.save(s);
     assertNotNull(s.getId());
     assertEquals(id, s.getId());
@@ -102,10 +104,24 @@ public abstract class SupplierRepositoryTest {
   @Test
   public void when_supplier_found_by_find_all_then_objects_same() {
     Supplier supplier = new Supplier();
+    supplier.setName("name");
     Long id = repository.save(supplier);
     List<Supplier> suppliers = repository.findAll();
     var supplierFromRepository = repository.findOne(id);
     assertSame(suppliers.get(0), supplierFromRepository);
+  }
+
+  @Test
+  public void when_supplier_saved_after_failed_supplier_save_then_no_exception_thrown() {
+    Supplier supplier = new Supplier();
+    try {
+      repository.save(supplier);
+    } catch (ConstraintViolationException ex) {
+      // do nothing
+    }
+    supplier = new Supplier();
+    supplier.setName("name");
+    repository.save(supplier);
   }
 
   protected abstract SupplierRepository createRepository() throws SQLException;

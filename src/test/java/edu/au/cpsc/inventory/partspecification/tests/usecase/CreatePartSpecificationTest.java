@@ -4,12 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
+import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification.SupplierModel;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,6 +93,7 @@ public abstract class CreatePartSpecificationTest {
     PartSpecification partSpecification = new PartSpecification();
     partSpecificationRepository.save(partSpecification);
     Supplier supplier = new Supplier();
+    supplier.setName("name");
     supplierRepository.save(supplier);
 
     useCase.addSupplierToPartSpecification(partSpecification.getId(), supplier.getId());
@@ -107,7 +111,9 @@ public abstract class CreatePartSpecificationTest {
 
   @Test
   public void given_one_supplier_then_one_listed() {
-    Long id = supplierRepository.save(new Supplier());
+    Supplier supplier = new Supplier();
+    supplier.setName("name");
+    Long id = supplierRepository.save(supplier);
 
     var suppliers = useCase.getSuppliers();
 
@@ -117,7 +123,9 @@ public abstract class CreatePartSpecificationTest {
 
   @Test
   public void given_no_suppliers_when_one_created_then_one_in_repository() {
-    useCase.createSupplier(new CreatePartSpecification.SupplierModel());
+    SupplierModel supplierModel = new SupplierModel();
+    supplierModel.setName("name");
+    useCase.createSupplier(supplierModel);
     assertEquals(1, supplierRepository.findAll().size());
   }
 
@@ -145,6 +153,19 @@ public abstract class CreatePartSpecificationTest {
     Long id2 = useCase.createPartSpecification(ps2);
 
     assertFalse(id1.equals(id2));
+  }
+
+  @Test
+  public void given_supplier_with_null_name_when_saved_then_exception_thrown() {
+    CreatePartSpecification.SupplierModel model = new CreatePartSpecification.SupplierModel();
+    assertThrows(ConstraintViolationException.class, () -> useCase.createSupplier(model));
+  }
+
+  @Test
+  public void given_supplier_with_whitespace_name_when_saved_then_exception_thrown() {
+    CreatePartSpecification.SupplierModel model = new CreatePartSpecification.SupplierModel();
+    model.setName("  \t\t\n\n\r\r  ");
+    assertThrows(ConstraintViolationException.class, () -> useCase.createSupplier(model));
   }
 
 }
