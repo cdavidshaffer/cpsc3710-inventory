@@ -6,7 +6,8 @@ import java.util.Scanner;
 /**
  * Console user interface for the part specification creation use case.
  */
-public class CreatePartSpecificationConsoleUserInterface {
+public class CreatePartSpecificationConsoleUserInterface extends
+    ConsoleUserInterface<CreatePartSpecificationConsoleUserInterface.MenuResponse> {
 
   private final Scanner scanner;
   private CreatePartSpecification createPartSpecification;
@@ -17,20 +18,13 @@ public class CreatePartSpecificationConsoleUserInterface {
     scanner = new Scanner(System.in);
   }
 
-  /**
-   * Execute this user interface's main loop.
-   */
-  public void run() {
-    displayMainMenu();
-    MenuResponse selection = getMenuResponse();
-    while (selection != MenuResponse.QUIT) {
-      handleMenuSelection(selection);
-      displayMainMenu();
-      selection = getMenuResponse();
-    }
+  @Override
+  protected MenuResponse quitMenuResponse() {
+    return MenuResponse.QUIT;
   }
 
-  private void handleMenuSelection(MenuResponse selection) {
+  @Override
+  protected void handleMenuSelection(MenuResponse selection) {
     if (selection == MenuResponse.INVALID) {
       System.out.println("Invalid menu selection");
     } else {
@@ -38,7 +32,8 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
-  private MenuResponse getMenuResponse() {
+  @Override
+  protected MenuResponse getMenuResponse() {
     System.out.print("Enter selection> ");
     String line = scanner.nextLine();
     for (MenuResponse candidate : MenuResponse.values()) {
@@ -49,7 +44,8 @@ public class CreatePartSpecificationConsoleUserInterface {
     return MenuResponse.INVALID;
   }
 
-  private void displayMainMenu() {
+  @Override
+  protected void displayMainMenu() {
     System.out.println("\n\nMain menu");
     for (MenuResponse r : MenuResponse.values()) {
       if (r != MenuResponse.INVALID) {
@@ -58,7 +54,10 @@ public class CreatePartSpecificationConsoleUserInterface {
     }
   }
 
-  private enum MenuResponse {
+  /**
+   * Possible menu selections.
+   */
+  protected enum MenuResponse {
     CREATE_PART_SPECIFICATION('c', "Create part specification", new
         CreatePartSpecificationAction()),
     LIST_PART_SPECIFICATIONS('l', "List part specifications",
