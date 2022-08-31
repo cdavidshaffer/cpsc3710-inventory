@@ -89,8 +89,7 @@ public class CreatePartSpecificationConsoleUserInterface extends
     }
 
     void execute(CreatePartSpecification createPartSpecification, Scanner scanner) {
-      if (action
-          != null) {
+      if (action != null) {
         action.execute(createPartSpecification, scanner);
       }
     }
