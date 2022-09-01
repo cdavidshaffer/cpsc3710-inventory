@@ -1,7 +1,10 @@
 package edu.au.cpsc.inventory.partspecification.consoleui;
 
+import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
+import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaPartSpecificationRepository;
 import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaSupplierRepository;
+import edu.au.cpsc.inventory.partspecification.repository.logging.LoggingSupplierRepositoryDecorator;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -26,8 +29,9 @@ public class Main {
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
         "inventory");
     EntityManager entityManager = entityManagerFactory.createEntityManager();
-    JpaSupplierRepository supplierRepository = new JpaSupplierRepository(entityManager);
-    JpaPartSpecificationRepository partSpecificationRepository = new JpaPartSpecificationRepository(
+    SupplierRepository supplierRepository = new LoggingSupplierRepositoryDecorator(
+        new JpaSupplierRepository(entityManager));
+    PartSpecificationRepository partSpecificationRepository = new JpaPartSpecificationRepository(
         entityManager);
     CreatePartSpecification useCase = new CreatePartSpecification(
         partSpecificationRepository,

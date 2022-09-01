@@ -58,15 +58,24 @@ public class CreatePartSpecificationConsoleUserInterface extends
    * Possible menu selections.
    */
   protected enum MenuResponse {
-    CREATE_PART_SPECIFICATION('c', "Create part specification", new
-        CreatePartSpecificationAction()),
-    LIST_PART_SPECIFICATIONS('l', "List part specifications",
-        new ListPartSpecificationsAction()), ASSIGN_SUPPLIER('a',
+    CREATE_PART_SPECIFICATION('c',
+        "Create part specification",
+        new CreatePartSpecificationAction()),
+    LIST_PART_SPECIFICATIONS('l',
+        "List part specifications",
+        new ListPartSpecificationsAction()),
+    ASSIGN_SUPPLIER('a',
         "Assign supplier to part specification",
         new AssignSupplierAction()),
-    INVALID('?', "INVALID", null),
-    CREATE_SUPPLIER('s', "Create supplier", new CreateSupplierAction()),
-    QUIT('q', "Quit", new QuitAction());
+    INVALID('?',
+        "INVALID",
+        null),
+    CREATE_SUPPLIER('s',
+        "Create supplier",
+        new CreateSupplierAction()),
+    QUIT('q',
+        "Quit",
+        new QuitAction());
 
     private final char inputCharacter;
     private final String description;
