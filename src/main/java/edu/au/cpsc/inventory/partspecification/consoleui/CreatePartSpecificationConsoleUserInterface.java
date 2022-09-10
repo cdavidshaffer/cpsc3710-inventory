@@ -126,7 +126,7 @@ public class CreatePartSpecificationConsoleUserInterface extends
       try {
         createPartSpecification.createSupplier(model);
         System.out.println("Created!");
-      } catch (jakarta.validation.ConstraintViolationException ex) {
+      } catch (javax.validation.ConstraintViolationException ex) {
         System.out.println("\n\nFailed to create supplier:");
         for (var violation : ex.getConstraintViolations()) {
           System.out.println("\t" + violation.getPropertyPath() + " " + violation.getMessage());

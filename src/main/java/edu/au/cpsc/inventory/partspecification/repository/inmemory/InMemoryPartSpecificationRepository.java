@@ -2,7 +2,7 @@ package edu.au.cpsc.inventory.partspecification.repository.inmemory;
 
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
-import jakarta.validation.Validator;
+import javax.validation.Validator;
 
 /**
  * I provide access to a collection of part specifications.  New specifications can be added, and

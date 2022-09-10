@@ -1,13 +1,13 @@
 package edu.au.cpsc.inventory.partspecification.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 /**
  * A company that sells parts.
  */
-@jakarta.persistence.Entity
+@javax.persistence.Entity
 @Table(name = "Suppliers")
 public class Supplier extends Entity {
 

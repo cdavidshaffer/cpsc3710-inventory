@@ -2,12 +2,12 @@ package edu.au.cpsc.inventory.partspecification.repository.inmemory;
 
 import edu.au.cpsc.inventory.partspecification.entity.Entity;
 import edu.au.cpsc.inventory.partspecification.repository.Repository;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 /**
  * I implement the Repository interface by storing objects in an in-memory collection.

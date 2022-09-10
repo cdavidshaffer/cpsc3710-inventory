@@ -2,7 +2,7 @@ package edu.au.cpsc.inventory.partspecification.repository.jpa;
 
 import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 
 /**
  * Implementation of PartSpecificationRepository using JPA.

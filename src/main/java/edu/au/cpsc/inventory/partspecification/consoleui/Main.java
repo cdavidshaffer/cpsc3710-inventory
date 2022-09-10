@@ -1,22 +1,17 @@
 package edu.au.cpsc.inventory.partspecification.consoleui;
 
-import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
-import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
-import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaPartSpecificationRepository;
-import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaSupplierRepository;
-import edu.au.cpsc.inventory.partspecification.repository.logging.LoggingSupplierRepositoryDecorator;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
 import java.sql.SQLException;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Start the console user interface.  This class currently serves as documentation about the
  * start-up of the system.  Especially in terms of injecting dependencies.
  */
+@SpringBootApplication
 public class Main {
 
   /**
@@ -25,19 +20,14 @@ public class Main {
    * @param args command line arguments
    */
   public static void main(String[] args) throws SQLException {
-    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(
-        "inventory");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
-    SupplierRepository supplierRepository = new LoggingSupplierRepositoryDecorator(
-        new JpaSupplierRepository(entityManager));
-    PartSpecificationRepository partSpecificationRepository = new JpaPartSpecificationRepository(
-        entityManager);
-    CreatePartSpecification useCase = new CreatePartSpecification(
-        partSpecificationRepository,
-        supplierRepository);
-    new CreatePartSpecificationConsoleUserInterface(
-        useCase).run();
+    SpringApplication.run(Main.class, args);
   }
+
+  @Bean
+  protected CommandLineRunner consoleUserInterface(
+      CreatePartSpecification createPartSpecification) {
+    return (args) -> new CreatePartSpecificationConsoleUserInterface(createPartSpecification).run();
+  }
+
 
 }

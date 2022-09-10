@@ -2,7 +2,7 @@ package edu.au.cpsc.inventory.partspecification.repository.jpa;
 
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 
 /**
  * Implementation of SupplierRepository using JPA.
@@ -23,5 +23,5 @@ public class JpaSupplierRepository extends
   protected Class<Supplier> getEntityClass() {
     return Supplier.class;
   }
-  
+
 }

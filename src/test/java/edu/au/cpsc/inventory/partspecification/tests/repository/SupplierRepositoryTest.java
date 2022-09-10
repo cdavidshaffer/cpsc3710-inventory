@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import edu.au.cpsc.inventory.partspecification.entity.Supplier;
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
-import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.List;
+import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
