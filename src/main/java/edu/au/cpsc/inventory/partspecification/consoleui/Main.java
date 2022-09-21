@@ -6,12 +6,12 @@ import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaPartSpecificati
 import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaSupplierRepository;
 import edu.au.cpsc.inventory.partspecification.repository.logging.LoggingSupplierRepositoryDecorator;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
 import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  * Start the console user interface.  This class currently serves as documentation about the

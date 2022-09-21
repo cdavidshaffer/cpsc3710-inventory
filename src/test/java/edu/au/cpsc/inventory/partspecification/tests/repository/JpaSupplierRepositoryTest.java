@@ -2,10 +2,10 @@ package edu.au.cpsc.inventory.partspecification.tests.repository;
 
 import edu.au.cpsc.inventory.partspecification.repository.SupplierRepository;
 import edu.au.cpsc.inventory.partspecification.repository.jpa.JpaSupplierRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class JpaSupplierRepositoryTest extends SupplierRepositoryTest {
 

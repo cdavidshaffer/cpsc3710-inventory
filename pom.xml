@@ -22,9 +22,10 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
             <compilerArgs>
-              <args>-Xlint:all</args>
+              <args>-Xlint:all,-options,-processing</args>
             </compilerArgs>
             <failOnWarning>true</failOnWarning>
+            <showWarnings>true</showWarnings>
           </configuration>
           <version>3.8.0</version>
         </plugin>
@@ -57,6 +58,10 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+      </plugin>
+      <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>google_checks.xml</configLocation>
@@ -85,8 +90,33 @@
       </plugin>
     </plugins>
   </build>
-
   <dependencies>
+    <dependency>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>vaadin-spring-boot-starter</artifactId>
+      <groupId>com.vaadin</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-devtools</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <optional>true</optional>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.junit.jupiter</groupId>
@@ -96,23 +126,19 @@
       <artifactId>derbyclient</artifactId>
       <groupId>org.apache.derby</groupId>
       <scope>compile</scope>
-      <version>10.15.2.0</version>
     </dependency>
     <dependency>
       <artifactId>derby</artifactId>
       <groupId>org.apache.derby</groupId>
       <scope>test</scope>
-      <version>10.15.2.0</version>
     </dependency>
     <dependency>
       <artifactId>hibernate-core</artifactId>
       <groupId>org.hibernate</groupId>
-      <version>6.1.2.Final</version>
     </dependency>
     <dependency>
       <artifactId>hibernate-validator</artifactId>
       <groupId>org.hibernate.validator</groupId>
-      <version>7.0.5.Final</version>
     </dependency>
     <dependency>
       <artifactId>jakarta.el</artifactId>
@@ -120,6 +146,7 @@
       <version>4.0.2</version>
     </dependency>
   </dependencies>
+
 
   <dependencyManagement>
     <dependencies>
@@ -130,18 +157,61 @@
         <type>pom</type>
         <version>5.8.2</version>
       </dependency>
+      <dependency>
+        <artifactId>vaadin-bom</artifactId>
+        <groupId>com.vaadin</groupId>
+        <scope>import</scope>
+        <type>pom</type>
+        <version>${vaadin.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <groupId>edu.au.cpsc</groupId>
 
   <modelVersion>4.0.0</modelVersion>
+
   <name>inventory</name>
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <relativePath/>
+    <version>2.7.3</version> <!-- lookup parent from repository -->
+  </parent>
+
+  <profiles>
+    <profile>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>vaadin-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <configuration>
+                  <productionMode>true</productionMode>
+                </configuration>
+                <goals>
+                  <goal>prepare-frontend</goal>
+                  <goal>build-frontend</goal>
+                </goals>
+                <id>frontend</id>
+                <phase>compile</phase>
+              </execution>
+            </executions>
+            <groupId>com.vaadin</groupId>
+            <version>${vaadin.version}</version>
+          </plugin>
+        </plugins>
+      </build>
+      <id>production</id>
+    </profile>
+  </profiles>
 
   <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>17</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <vaadin.version>23.2.1</vaadin.version>
   </properties>
 
   <version>1.0-SNAPSHOT</version>

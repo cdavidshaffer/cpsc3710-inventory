@@ -1,9 +1,9 @@
 package edu.au.cpsc.inventory.partspecification.entity;
 
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * A part specification is a formal description of a component that can be purchased or
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * <p>Part specifications that have been persisted are assigned an id.
  */
-@jakarta.persistence.Entity
+@javax.persistence.Entity
 @Table(name = "PartSpecifications")
 public class PartSpecification extends Entity {
 

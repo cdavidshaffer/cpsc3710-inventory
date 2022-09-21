@@ -2,10 +2,10 @@ package edu.au.cpsc.inventory.partspecification.repository.jpa;
 
 import edu.au.cpsc.inventory.partspecification.entity.Entity;
 import edu.au.cpsc.inventory.partspecification.repository.Repository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 /**
  * My concrete subclasses are repositories.  I provide JPA implementations of the three

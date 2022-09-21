@@ -41,8 +41,8 @@ public class CreatePartSpecification {
    *
    * @param partSpecificationModel the model for the part specification to be created
    * @return the id of the created part specification
-   * @throws jakarta.validation.ConstraintViolationException if the supplied part specification is
-   *                                                         invalid
+   * @throws javax.validation.ConstraintViolationException if the supplied part specification is
+   *                                                       invalid
    */
   public Long createPartSpecification(PartSpecificationModel partSpecificationModel) {
     PartSpecification partSpecification = modelToPartSpecification(partSpecificationModel);
@@ -108,7 +108,7 @@ public class CreatePartSpecification {
    * Create a supplier by adding it to my supplier repository.
    *
    * @param supplier the supplier to be saved.
-   * @throws jakarta.validation.ConstraintViolationException if the supplier is invalid
+   * @throws javax.validation.ConstraintViolationException if the supplier is invalid
    */
   public void createSupplier(SupplierModel supplier) {
     supplierRepository.save(modelToSupplier(supplier));

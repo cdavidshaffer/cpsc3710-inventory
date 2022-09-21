@@ -9,9 +9,11 @@ import edu.au.cpsc.inventory.partspecification.entity.PartSpecification;
 import edu.au.cpsc.inventory.partspecification.repository.PartSpecificationRepository;
 import java.sql.SQLException;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@Transactional
 public abstract class PartSpecificationRepositoryTest {
 
   private PartSpecificationRepository repository;
