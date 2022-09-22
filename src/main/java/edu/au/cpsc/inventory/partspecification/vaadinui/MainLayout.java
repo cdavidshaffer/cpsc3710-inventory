@@ -18,6 +18,8 @@ import com.vaadin.flow.router.RouterLink;
 @Route("")
 public class MainLayout extends AppLayout {
 
+  private static final long serialVersionUID = 0L;
+
   /**
    * Create this main view.
    */

@@ -18,6 +18,8 @@ import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification.P
  */
 public class PartSpecificationEditorView extends VerticalLayout {
 
+  private static final long serialVersionUID = 0L;
+
   private final Binder<PartSpecificationModel> binder;
 
   /**
@@ -66,12 +68,16 @@ public class PartSpecificationEditorView extends VerticalLayout {
 
   private static class SaveEvent extends ComponentEvent<PartSpecificationEditorView> {
 
+    private static final long serialVersionUID = 0L;
+
     public SaveEvent(PartSpecificationEditorView source, boolean fromClient) {
       super(source, fromClient);
     }
   }
 
   private static class CancelEvent extends ComponentEvent<PartSpecificationEditorView> {
+
+    private static final long serialVersionUID = 0L;
 
     public CancelEvent(PartSpecificationEditorView source, boolean fromClient) {
       super(source, fromClient);

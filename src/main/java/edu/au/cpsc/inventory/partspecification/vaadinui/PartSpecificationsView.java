@@ -17,9 +17,11 @@ import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification.P
 @Route(value = "/part-specifications", layout = MainLayout.class)
 public class PartSpecificationsView extends HorizontalLayout {
 
-  private final Grid grid;
+  private static final long serialVersionUID = 0L;
+
+  private final Grid<PartSpecificationModel> grid;
   private final PartSpecificationEditorView editorForm;
-  private CreatePartSpecification createPartSpecification;
+  private transient CreatePartSpecification createPartSpecification;
 
   /**
    * Create this view and all of its sub-components.
