@@ -16,4 +16,5 @@ public interface Repository<T extends Entity> {
   List<T> findAll();
 
   T findOne(Long id);
+  
 }

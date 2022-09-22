@@ -37,4 +37,5 @@ public class SpringDataSupplierRepository implements SupplierRepository {
   public Supplier findOne(Long id) {
     return springDataSupplierCrudRepository.findById(id).orElse(null);
   }
+  
 }
