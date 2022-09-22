@@ -7,6 +7,7 @@ import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification.PartSpecificationModel;
@@ -35,7 +36,7 @@ public class PartSpecificationsView extends HorizontalLayout {
     leftSection.add(createToolbar(), grid);
     editorForm = createEditor();
     add(leftSection, editorForm);
-    populateGrid();
+    updateGrid();
   }
 
   private Grid<PartSpecificationModel> createGrid() {
@@ -50,7 +51,7 @@ public class PartSpecificationsView extends HorizontalLayout {
     editorForm.showPartSpecification(selected);
   }
 
-  private void populateGrid() {
+  private void updateGrid() {
     grid.setItems(createPartSpecification.getPartSpecifications());
   }
 
@@ -63,11 +64,35 @@ public class PartSpecificationsView extends HorizontalLayout {
   }
 
   private void addButtonPressed() {
-    Notification.show("Add pressed");
+    PartSpecificationModel newModel = new PartSpecificationModel();
+    editorForm.showPartSpecification(newModel);
+    grid.asSingleSelect().clear();
   }
 
   private PartSpecificationEditorView createEditor() {
-    return new PartSpecificationEditorView();
+    PartSpecificationEditorView editor = new PartSpecificationEditorView();
+    editor.addSaveListener(event -> saveButtonClicked());
+    editor.addCancelListener(event -> cancelButtonClicked());
+    return editor;
+  }
+
+  private void saveButtonClicked() {
+    PartSpecificationModel editedModel = new PartSpecificationModel();
+    try {
+      editorForm.updatePartSpecification(editedModel);
+      if (editedModel.getId() == null) {
+        createPartSpecification.createPartSpecification(editedModel);
+      } else {
+        Notification.show("Did not implement edit use case");
+      }
+      updateGrid();
+    } catch (ValidationException e) {
+      Notification.show("Validation failed");
+    }
+  }
+
+  private void cancelButtonClicked() {
+    editorForm.showPartSpecification(new PartSpecificationModel());
   }
 
 }

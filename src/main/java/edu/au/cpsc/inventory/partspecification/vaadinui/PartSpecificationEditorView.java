@@ -27,12 +27,25 @@ public class PartSpecificationEditorView extends VerticalLayout {
    */
   public PartSpecificationEditorView() {
     binder = new Binder<>();
-    FormLayout form = new FormLayout();
+    TextField idField = new TextField("Id");
+    idField.setEnabled(false);
+    binder.bind(idField, m -> {
+      if (m.getId() == null) {
+        return "";
+      } else {
+        return m.getId().toString();
+      }
+    }, (m, v) -> {
+      if (!(v == null || v.isBlank())) {
+        m.setId(Long.parseLong(v));
+      }
+    });
     TextField nameField = new TextField("Name");
     binder.bind(nameField, m -> m.getName(), (m, v) -> m.setName(v));
     TextArea descriptionField = new TextArea("Description");
     binder.bind(descriptionField, m -> m.getDescription(), (m, v) -> m.setDescription(v));
-    form.add(nameField, descriptionField);
+    FormLayout form = new FormLayout();
+    form.add(idField, nameField, descriptionField);
     HorizontalLayout buttonBar = new HorizontalLayout();
     Button saveButton = new Button("Save");
     saveButton.addClickListener(event -> saveButtonClicked());
@@ -66,7 +79,10 @@ public class PartSpecificationEditorView extends VerticalLayout {
     fireEvent(new SaveEvent(this, false));
   }
 
-  private static class SaveEvent extends ComponentEvent<PartSpecificationEditorView> {
+  /**
+   * Event generated when save button clicked.
+   */
+  protected static class SaveEvent extends ComponentEvent<PartSpecificationEditorView> {
 
     private static final long serialVersionUID = 0L;
 
@@ -75,7 +91,10 @@ public class PartSpecificationEditorView extends VerticalLayout {
     }
   }
 
-  private static class CancelEvent extends ComponentEvent<PartSpecificationEditorView> {
+  /**
+   * Event generated with cancel button clicked.
+   */
+  protected static class CancelEvent extends ComponentEvent<PartSpecificationEditorView> {
 
     private static final long serialVersionUID = 0L;
 
