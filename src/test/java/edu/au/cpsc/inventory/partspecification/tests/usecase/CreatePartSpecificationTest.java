@@ -14,10 +14,12 @@ import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification.SupplierModel;
 import java.sql.SQLException;
 import java.util.List;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@Transactional
 public abstract class CreatePartSpecificationTest {
 
   protected PartSpecificationRepository partSpecificationRepository;
