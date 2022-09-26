@@ -4,7 +4,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -54,11 +53,6 @@ public class PartSpecificationsView extends HorizontalLayout {
       SelectionEvent<Grid<PartSpecificationModel>, PartSpecificationModel> event) {
     Optional<PartSpecificationModel> selected = event.getFirstSelectedItem();
     editorForm.showPartSpecification(selected.orElse(new PartSpecificationModel()));
-  }
-
-  private void gridItemClicked(ItemClickEvent<PartSpecificationModel> event) {
-    PartSpecificationModel selected = event.getItem();
-    editorForm.showPartSpecification(selected);
   }
 
   private void updateGrid() {
