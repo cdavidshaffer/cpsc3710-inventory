@@ -3,14 +3,17 @@ package edu.au.cpsc.inventory.partspecification.vaadinui;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.router.Route;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification;
 import edu.au.cpsc.inventory.partspecification.usecase.CreatePartSpecification.PartSpecificationModel;
+import java.util.Optional;
 
 /**
  * View that displays a grid of part specifications and an editor to edit them.
@@ -42,8 +45,15 @@ public class PartSpecificationsView extends HorizontalLayout {
   private Grid<PartSpecificationModel> createGrid() {
     Grid<PartSpecificationModel> grid = new Grid<>(
         PartSpecificationModel.class, true);
-    grid.addItemClickListener(event -> gridItemClicked(event));
+    grid.setSelectionMode(SelectionMode.SINGLE);
+    grid.addSelectionListener(event -> gridSelectionChanged(event));
     return grid;
+  }
+
+  private void gridSelectionChanged(
+      SelectionEvent<Grid<PartSpecificationModel>, PartSpecificationModel> event) {
+    Optional<PartSpecificationModel> selected = event.getFirstSelectedItem();
+    editorForm.showPartSpecification(selected.orElse(new PartSpecificationModel()));
   }
 
   private void gridItemClicked(ItemClickEvent<PartSpecificationModel> event) {
